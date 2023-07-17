@@ -1,9 +1,12 @@
+import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 
 const Header = () => {
   return (
     <Container>
-        <Logo src="./image/logo.png"></Logo>
+        <Link to="/">
+            <Logo src="./image/logo.png"></Logo>
+        </Link>
         <ButtonContainer>
             <ButtonContainer_Logout>LOGOUT</ButtonContainer_Logout>
             <ButtonContainer_Mypage>MYPAGE</ButtonContainer_Mypage>

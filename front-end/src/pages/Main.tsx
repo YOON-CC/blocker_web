@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
-import Header from './header/header';
+import Header from '../components/header';
 
 
 const Main = () => {
@@ -13,12 +14,16 @@ const Main = () => {
         <div>
             <Header />
             {/* <Divd></Divd> */}
-            <Block_1 className={isFocused_1 ? 'focused_1' : ''} onMouseEnter={() => setIsFocused_1(true)} onMouseLeave={() => setIsFocused_1(false)}>
-                <img src="/image/block_1_img.png" style={{ width: "90px", height: "80px", marginTop : "45px", marginLeft : "37px"}}></img>
-            </Block_1>
-            <Block_2 className={isFocused_2 ? 'focused_2' : ''} onMouseEnter={() => setIsFocused_2(true)} onMouseLeave={() => setIsFocused_2(false)}>
-                <img src="/image/block_2_img.png" style={{ width: "70px", height: "70px", marginTop : "45px", marginLeft : "45px"}}></img>
-            </Block_2>
+            <Link to="/board">
+                <Block_1 className={isFocused_1 ? 'focused_1' : ''} onMouseEnter={() => setIsFocused_1(true)} onMouseLeave={() => setIsFocused_1(false)}>
+                    <img src="/image/block_1_img.png" style={{ width: "90px", height: "80px", marginTop : "45px", marginLeft : "37px"}}></img>
+                </Block_1>
+            </Link>
+            <Link to="/postwrite">
+                <Block_2 className={isFocused_2 ? 'focused_2' : ''} onMouseEnter={() => setIsFocused_2(true)} onMouseLeave={() => setIsFocused_2(false)}>
+                    <img src="/image/block_2_img.png" style={{ width: "70px", height: "70px", marginTop : "45px", marginLeft : "45px"}}></img>
+                </Block_2>
+            </Link>
             <Block_3 className={isFocused_3 ? 'focused_3' : ''} onMouseEnter={() => setIsFocused_3(true)} onMouseLeave={() => setIsFocused_3(false)}>
                 <img src="/image/block_3_img.png" style={{ width: "80px", height: "80px", marginTop : "40px", marginLeft : "50px"}}></img>
             </Block_3>
