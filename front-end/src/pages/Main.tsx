@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import Header from '../components/header';
+import Footer from '../components/footer';
 
 
 const Main = () => {
@@ -24,12 +25,16 @@ const Main = () => {
                     <img src="/image/block_2_img.png" style={{ width: "70px", height: "70px", marginTop : "45px", marginLeft : "45px"}}></img>
                 </Block_2>
             </Link>
-            <Block_3 className={isFocused_3 ? 'focused_3' : ''} onMouseEnter={() => setIsFocused_3(true)} onMouseLeave={() => setIsFocused_3(false)}>
-                <img src="/image/block_3_img.png" style={{ width: "80px", height: "80px", marginTop : "40px", marginLeft : "50px"}}></img>
-            </Block_3>
-            <Block_4 className={isFocused_4 ? 'focused_4' : ''} onMouseEnter={() => setIsFocused_4(true)} onMouseLeave={() => setIsFocused_4(false)}>
-                <img src="/image/block_4_img.png" style={{ width: "80px", height: "80px", marginTop : "40px", marginLeft : "43px"}}></img>
-            </Block_4>
+            <Link to="/contracts">
+                <Block_3 className={isFocused_3 ? 'focused_3' : ''} onMouseEnter={() => setIsFocused_3(true)} onMouseLeave={() => setIsFocused_3(false)}>
+                    <img src="/image/block_3_img.png" style={{ width: "80px", height: "80px", marginTop : "40px", marginLeft : "50px"}}></img>
+                </Block_3>
+            </Link>
+                <Link to="/vertification">
+                <Block_4 className={isFocused_4 ? 'focused_4' : ''} onMouseEnter={() => setIsFocused_4(true)} onMouseLeave={() => setIsFocused_4(false)}>
+                    <img src="/image/block_4_img.png" style={{ width: "80px", height: "80px", marginTop : "40px", marginLeft : "43px"}}></img>
+                </Block_4>
+            </Link>
             <Focus_1 className={isFocused_1 ? 'focused_1' : ''}>
                 <Title_1 className={isFocused_1 ? 'focused_1' : ''}>여러 게시글을 보며<br/>계약을 진행해보세요!</Title_1>
             </Focus_1>
@@ -40,8 +45,9 @@ const Main = () => {
                 <Title_3 className={isFocused_3 ? 'focused_3' : ''}>당신의 계약 상황을 확인해보세요!</Title_3>
             </Focus_3>
             <Focus_4 className={isFocused_4 ? 'focused_4' : ''}>
-                <Title_4 className={isFocused_4 ? 'focused_4' : ''}>사람들과 소통해요!</Title_4>
+                <Title_4 className={isFocused_4 ? 'focused_4' : ''}>계약서를 검증해보세요!</Title_4>
             </Focus_4>
+            <Footer/>
         </div>
     );
 };
@@ -73,7 +79,7 @@ const Block_1 = styled.div`
     cursor: pointer;
 
     &.focused_1 {
-        z-index : 1;
+        z-index : 999;
     }
 `;
 const Block_2 = styled.div`
@@ -93,7 +99,7 @@ const Block_2 = styled.div`
     cursor: pointer;
 
     &.focused_2 {
-        z-index : 1;
+        z-index : 999;
     }
 `;
 const Block_3 = styled.div`
@@ -113,7 +119,7 @@ const Block_3 = styled.div`
     cursor: pointer;
 
     &.focused_3 {
-        z-index : 1;
+        z-index : 999;
     }
 `;
 const Block_4 = styled.div`
@@ -133,7 +139,7 @@ const Block_4 = styled.div`
     cursor: pointer;
 
     &.focused_4 {
-        z-index : 1;
+        z-index : 999;
     }
 `;
 const Focus_1 = styled.div`
@@ -146,7 +152,7 @@ const Focus_1 = styled.div`
     &.focused_1 {
         background-color: rgba(0, 0, 0, 0.9);
         opacity : 1;
-        z-index : 0;
+        z-index : 998;
     }
 `;
 const Focus_2 = styled.div`
@@ -159,7 +165,7 @@ const Focus_2 = styled.div`
     &.focused_2{
         background-color: rgba(0, 0, 0, 0.9);
         opacity : 1;
-        z-index : 0;
+        z-index : 998;
     }
 `;
 const Focus_3 = styled.div`
@@ -172,7 +178,7 @@ const Focus_3 = styled.div`
     &.focused_3{
         background-color: rgba(0, 0, 0, 0.9);
         opacity : 1;
-        z-index : 0;
+        z-index : 998;
     }
 `;
 const Focus_4 = styled.div`
@@ -185,7 +191,7 @@ const Focus_4 = styled.div`
     &.focused_4{
         background-color: rgba(0, 0, 0, 0.9);
         opacity : 1;
-        z-index : 0;
+        z-index : 998;
     }
 `;
 const Title_1 = styled.div`
@@ -263,7 +269,7 @@ const Title_4 = styled.div`
     top : 50%;
     left : 50%;
     transform: translate(-50%, -50%);
-    margin-left: 240px;
+    margin-left: 255px;
     margin-top: 88px;
 
     text-align: left; /* 텍스트를 오른쪽으로 정렬 */

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import Header from '../components/header';
-
+import Footer from '../components/footer';
 
 const Postwrite = () => {
 
@@ -22,6 +22,7 @@ const Postwrite = () => {
                 </Content_container>
                 <Post_btn>POST</Post_btn>
             </Container>
+            <Footer/>
         </div>
     );
 };
@@ -142,6 +143,8 @@ const Post_btn = styled.button`
 
     font-size : 15px;
     font-weight : bold;
+
+    cursor: pointer;
 `;
 
 
