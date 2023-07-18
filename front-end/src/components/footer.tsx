@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 
 
-const Chat = () => {
+const Footer = () => {
 
     const [chat_activate, setChat_activate] = useState(false);
 
@@ -47,4 +47,4 @@ const Container = styled.div`
     
 `;
 
-export default Chat;
+export default Footer;

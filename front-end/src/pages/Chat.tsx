@@ -7,6 +7,8 @@ import Header from '../components/header';
 const Chat = () => {
 
 
+    const [chat_activate, setChat_activate] = useState(false);
+
     return (
         <div>
             <Header />
@@ -21,7 +23,17 @@ const Chat = () => {
                         <Chat_list></Chat_list>
                     </Chat_container>
                 </Phone>
-                <Chatting></Chatting>
+                <Chatting>
+                    <Chatting_container></Chatting_container>
+                    <Chatting_input_container >
+                        <Chatting_input_container_content className='Chatting_input_container_content'></Chatting_input_container_content>
+                        <Chatting_input_send_container className={chat_activate ? 'chat_activate' : ''} onMouseEnter={() => setChat_activate(true)} onMouseLeave={() => setChat_activate(false)}>
+                            {!chat_activate && (<img src="/image/chat_1.png" style={{ width: "30px", height: "30px", marginTop : "2px", marginLeft : "2.8px"}}></img>)}
+                            {chat_activate && (<img src="/image/chat_2.png" style={{ width: "30.5px", height: "31px", marginTop : "1px", marginLeft : "2.2px"}}></img>)}
+                        </Chatting_input_send_container>
+                    </Chatting_input_container>
+
+                </Chatting>
             </Container>
         </div>
     );
@@ -78,6 +90,64 @@ const Chatting = styled.div`
     border-radius : 10px;
     border : 5px solid #8BF5FD;
 `;
+const Chatting_container = styled.div`
+    position : absolute;
+    background : #ffffff;
+    height : 380px;
+    width : 650px;
+`;
+const Chatting_input_container = styled.div`
+    position : absolute;
+    // background : red;
+    height : 34px;
+    width : 580px;
+    margin-top : 388px;
+    margin-left : 8px;
+
+    border-radius : 5px;
+    border : 5px solid #8BF5FD;
+`;
+const Chatting_input_container_content = styled.textarea`
+    position : absolute;
+    background : none;
+    height : 100%;
+    width : 580px;
+
+    outline : none;
+    resize: none;
+    border : none;
+
+    color : #8BF5FD;
+
+    overflow: auto;
+
+    &.Chatting_input_container_content::-webkit-scrollbar {
+        width: 3.5px;
+    }
+    &.Chatting_input_container_content::-webkit-scrollbar-thumb {
+        background-color: #000000;
+        border-radius: 10px;
+        border: 1px solid transparent;
+    }
+    &.Chatting_input_container_content::-webkit-scrollbar-track {
+        border-radius: 50px;
+    }
+
+`;
+const Chatting_input_send_container = styled.div`
+    position : absolute;
+    background : #8BF5FD;
+    height : 35px;
+    width : 35px;
+    border-radius : 5px;
+    margin-left : 593.2px;
+
+    &.chat_activate {
+        box-shadow: 0px 0px 10px 0px #8BF5FD, 0px 0px 10px 0px #8BF5FD;
+        cursor : pointer;
+    }
+`;
+
 
 
 export default Chat;
