@@ -9,7 +9,9 @@ const Header = () => {
         </Link>
         <ButtonContainer>
             <ButtonContainer_Logout>LOGOUT</ButtonContainer_Logout>
-            <ButtonContainer_Mypage>MYPAGE</ButtonContainer_Mypage>
+            <Link to="/mypage" style={{ textDecoration: 'none' }}>
+                <ButtonContainer_Mypage>MYPAGE</ButtonContainer_Mypage>
+            </Link>
         </ButtonContainer>
     </Container>
   );
