@@ -1,32 +1,28 @@
-import React from 'react';
-import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
-import { useNavigate } from 'react-router-dom'; 
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 const Login = () => {
-    const navigate = useNavigate();
+  const handleLoginSuccess = (credentialResponse: any) => {
+    console.log(credentialResponse);
+  };
 
-    const onSuccess = (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
+  const handleLoginError = () => {
+    console.log('Login Failed');
+  };
 
-        console.log('로그인 성공:', response);
-        navigate('/'); 
-    };
+  const clientId: string | undefined = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
-    const onFailure = (error: any) => {
-        // 로그인 실패 시 호출되는 콜백 함수
-        console.error('로그인 실패:', error);
-    };
-
-    return (
-        <div>
-            <GoogleLogin
-                clientId="189071197221-f8uhug19sdap87tk03t1ffdbu7aiefpi.apps.googleusercontent.com" 
-                buttonText="구글 로그인" 
-                onSuccess={onSuccess} 
-                onFailure={onFailure} 
-                cookiePolicy={'single_host_origin'}
-            />
-        </div>
-    );
+  return (
+    <div>
+      {clientId && (
+        <GoogleOAuthProvider clientId={clientId}>
+          <GoogleLogin
+            onSuccess={handleLoginSuccess}
+            onError={handleLoginError}
+          />
+        </GoogleOAuthProvider>
+      )}
+    </div>
+  );
 };
 
 export default Login;
