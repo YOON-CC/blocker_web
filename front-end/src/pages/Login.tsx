@@ -59,6 +59,8 @@ const Login = () => {
               <GoogleLogin
                 onSuccess={handleLoginSuccess}
                 onError={handleLoginError}
+                shape = "circle"
+                type = "icon"
               />
             </GoogleOAuthProvider>
           )}
@@ -238,11 +240,12 @@ const Container_finish_login_button = styled.div`
     position : relative;
     // background : red;
     height: 50px;
-    width: 200px;
+    width: 40px;
 
     top : 45%;
     left : 50%;
     transform: translate(-50%, -50%);
 `;
+
 
 export default Login;

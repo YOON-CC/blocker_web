@@ -1,20 +1,33 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
+import { deleteCookie } from "../utils/cookieUtils";
 
 const Header = () => {
-  return (
-    <Container>
-        <Link to="/">
-            <Logo src="./image/logo.png"></Logo>
-        </Link>
-        <ButtonContainer>
-            <ButtonContainer_Logout>LOGOUT</ButtonContainer_Logout>
-            <Link to="/mypage" style={{ textDecoration: 'none' }}>
-                <ButtonContainer_Mypage>MYPAGE</ButtonContainer_Mypage>
+    const navigate = useNavigate();
+
+    //쿠키삭제
+    const handleLogoutClick = () => {
+
+        // deleteCookie('쿠키이름');
+        
+        //쿠키삭제 이런코드
+        navigate('/login');
+
+    };
+
+    return (
+        <Container>
+            <Link to="/">
+                <Logo src="./image/logo.png"></Logo>
             </Link>
-        </ButtonContainer>
-    </Container>
-  );
+            <ButtonContainer>
+                <ButtonContainer_Logout onClick={handleLogoutClick}>LOGOUT</ButtonContainer_Logout>
+                <Link to="/mypage" style={{ textDecoration: 'none' }}>
+                    <ButtonContainer_Mypage>MYPAGE</ButtonContainer_Mypage>
+                </Link>
+            </ButtonContainer>
+        </Container>
+    );
 };
 
 const Container = styled.div`
@@ -50,6 +63,7 @@ const ButtonContainer_Logout = styled.div`
     font-size: 17px;
     font-weight:bold;
     color : #8BF5FD;
+    cursor : pointer;
 
 `;
 const ButtonContainer_Mypage = styled.div`
