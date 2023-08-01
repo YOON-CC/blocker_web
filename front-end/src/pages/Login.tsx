@@ -2,13 +2,14 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import styled, { keyframes } from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate} from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 const Login = () => {
 
   const navigate = useNavigate();
 
   const handleLoginSuccess = (credentialResponse: any) => {
-    console.log(credentialResponse);
+    console.log(jwtDecode(credentialResponse.credential));
     navigate('/');
   };
 
