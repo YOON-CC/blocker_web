@@ -3,15 +3,47 @@ import styled, { keyframes } from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate} from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import axios from 'axios';
+import appStore from '../store/appStore';
+
+
 
 const Login = () => {
 
   const navigate = useNavigate();
 
-  const handleLoginSuccess = (credentialResponse: any) => {
-    console.log(jwtDecode(credentialResponse.credential));
+  //api 요청
+  const handleMypage_user_info = async (credentialResponse: any) => {
+    // setEmail();
     navigate('/');
+    appStore.setValue(2)
+    const decodedToken : any = jwtDecode(credentialResponse.credential);
+
+    
+    console.log(decodedToken.email);
+    console.log(decodedToken.name);
+    console.log(decodedToken.picture);
+
+    try {   
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/login`, {
+        email : decodedToken.email,
+        name : decodedToken.name,
+        picture : decodedToken.picture
+      });
+
+      if (response.status === 200) {
+      }
+
+      // if (appStore.value === 1){
+      //   console.log("dfdfdf")
+      //   navigate('/signature');
+      // }
+
+    } catch (error) {
+      
+    }
   };
+
 
   const handleLoginError = () => {
     console.log('Login Failed');
@@ -58,7 +90,7 @@ const Login = () => {
           {clientId && (
             <GoogleOAuthProvider clientId={clientId}>
               <GoogleLogin
-                onSuccess={handleLoginSuccess}
+                onSuccess={handleMypage_user_info}
                 onError={handleLoginError}
                 shape = "circle"
                 type = "icon"
