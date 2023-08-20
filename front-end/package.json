@@ -57,6 +57,7 @@
   },
   "devDependencies": {
     "@types/gapi": "^0.0.44",
+    "@types/js-cookie": "^3.0.3",
     "@types/react-signature-canvas": "^1.0.2"
   }
 }

@@ -8,6 +8,20 @@ const Signature = () => {
 
   const signatureRef = useRef<SignatureCanvas | null>(null); // 타입 지정
 
+  //useState 설정
+  const [access_token, setAccess_token] = useState('');
+
+  useEffect(() => {
+    //access_token 추출
+    const temp_access_token = localStorage.getItem('access-token');
+    if (temp_access_token !== null) {
+      setAccess_token(temp_access_token);
+    } else {
+      console.log("access-token not found in localStorage");
+    }
+  },[]);
+  
+  //초기화 함수
   const handleClearSignature = () => {
     if (signatureRef.current) {
       signatureRef.current.clear();
@@ -15,15 +29,22 @@ const Signature = () => {
   };
 
   const handleSaveSignature = async (signatureImage: string) => {
-
     console.log(signatureImage)
+    console.log(access_token)
+
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/login`, {
         signature: signatureImage,
+      }, 
+      {
+        headers: {
+            'authorization': access_token,
+        }
       });
-
+      console.log(response.status)
       if (response.status === 200) {
-        
+        console.log("상태값 200")
+        appStore.setValue(1) 
       }
     } catch (error) {
       // 에러 처리
@@ -31,7 +52,7 @@ const Signature = () => {
   };
 
   const handleSaveAndSend = () => {
-    appStore.setValue(1)
+    
     if (signatureRef.current) {
       const signatureImage = signatureRef.current.toDataURL();
       handleSaveSignature(signatureImage);

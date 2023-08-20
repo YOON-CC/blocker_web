@@ -5,6 +5,7 @@ import { Link, useNavigate} from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import appStore from '../store/appStore';
+import Cookies from 'js-cookie';
 
 
 
@@ -14,9 +15,7 @@ const Login = () => {
 
   //api 요청
   const handleMypage_user_info = async (credentialResponse: any) => {
-    // setEmail();
-    navigate('/');
-    appStore.setValue(2)
+
     const decodedToken : any = jwtDecode(credentialResponse.credential);
 
     
@@ -32,6 +31,27 @@ const Login = () => {
       });
 
       if (response.status === 200) {
+        console.log("상태값 200",response.data)
+        const refresh_token = response.headers['cookie']
+        const access_token = response.headers['authorization']
+
+        Cookies.set('X-REFRESH-TOKEN', refresh_token);
+        localStorage.setItem('access-token', access_token)
+
+
+        console.log(refresh_token, access_token)
+        appStore.setValue(2) // 나중에 1로 바꿔야함
+        navigate('/');
+      }
+      if (response.status === 201) {
+        console.log("상태값 201", response.data)
+        const refresh_token = response.headers['cookie']
+        const access_token = response.headers['authorization']
+
+        Cookies.set('X-REFRESH-TOKEN', refresh_token);
+        localStorage.setItem('access-token', access_token)
+
+        appStore.setValue(2)
       }
 
       // if (appStore.value === 1){
