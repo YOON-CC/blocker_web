@@ -40,7 +40,7 @@ const Login = () => {
 
 
         console.log(refresh_token, access_token)
-        appStore.setValue(2) // 나중에 1로 바꿔야함
+        appStore.setValue(1) // 나중에 1로 바꿔야함
         navigate('/');
       }
       if (response.status === 201) {
@@ -50,7 +50,7 @@ const Login = () => {
 
         Cookies.set('X-REFRESH-TOKEN', refresh_token);
         localStorage.setItem('access-token', access_token)
-
+        navigate('/');
         appStore.setValue(2)
       }
 
@@ -104,7 +104,7 @@ const Login = () => {
 
       <Container_finish>
         <Container_finish_img>
-          <img src="./image/logo.png" style={{ width: "100%", height: "100%"}}></img>
+
         </Container_finish_img>
         <Container_finish_login_button>
           {clientId && (

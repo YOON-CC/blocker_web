@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Sans+KR&family=Jua&family=Lilita+One&family=Roboto&family=Rubik+Mono+One&family=Single+Day&display=swap');
+
 body {
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
   /* background: linear-gradient(135deg, #090909, rgb(32, 32, 32), #141414, #141414, #0c0c0c); */
   height: 100vh;
   margin: 0;

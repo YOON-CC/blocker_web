@@ -28,23 +28,28 @@ const Signature = () => {
     }
   };
 
-  const handleSaveSignature = async (signatureImage: string) => {
-    console.log(signatureImage)
-    console.log(access_token)
+  const handleSaveSignature = async (signatureImage: Blob) => {
+    console.log(signatureImage);
+    console.log(access_token);
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/login`, {
-        signature: signatureImage,
-      }, 
-      {
-        headers: {
-            'authorization': access_token,
+      const formData = new FormData();
+      formData.append('signature', signatureImage, 'signature.png');
+      console.log(typeof formData)
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/signature`,
+        formData,
+        {
+          headers: {
+            authorization: access_token,
+            'Content-Type': 'multipart/form-data',
+          },
         }
-      });
-      console.log(response.status)
+      );
+
+      console.log(response.status);
       if (response.status === 200) {
-        console.log("상태값 200")
-        appStore.setValue(1) 
+        console.log('상태값 200');
+        appStore.setValue(1);
       }
     } catch (error) {
       // 에러 처리
@@ -52,10 +57,13 @@ const Signature = () => {
   };
 
   const handleSaveAndSend = () => {
-    
     if (signatureRef.current) {
-      const signatureImage = signatureRef.current.toDataURL();
-      handleSaveSignature(signatureImage);
+      const canvas = signatureRef.current.getCanvas();
+      canvas.toBlob((blob) => {
+        if (blob) {
+          handleSaveSignature(blob);
+        }
+      }, 'image/png');
     }
   };
 
