@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import { deleteCookie } from "../utils/cookieUtils";
+import Login from '../pages/Login';
+import appStore from '../store/appStore';
+
 
 const Header = () => {
     const navigate = useNavigate();
@@ -12,14 +15,17 @@ const Header = () => {
         setIsDropdownOpen(prev => !prev);
     };
 
-        //쿠키삭제
+    //쿠키삭제
     const handleLogoutClick = () => {
-
         // deleteCookie('쿠키이름');
         
         //쿠키삭제 이런코드
         navigate('/login');
+    };
 
+    /*로그인으로 이동하도록 하기*/
+    const handleGotoLogin = () => {
+        appStore.setValue(2)
     };
     
 
@@ -31,11 +37,18 @@ const Header = () => {
                 </Container_title>
             </StyledLink>
             <Container_menu>
+                
+
                 <StyledLink to="/board" style={{ textDecoration: 'none' }}>
                     <Container_menu_item>
                         게시글
                     </Container_menu_item>
                 </StyledLink>
+                {/* <Container_menu_item onClick={handleGotoLogin}> 
+                    게시글
+                </Container_menu_item> */}
+
+
                 <StyledLink to="/postwrite" style={{ textDecoration: 'none' }}>
                     <Container_menu_item>
                         게시글작성

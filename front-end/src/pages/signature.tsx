@@ -40,7 +40,7 @@ const Signature = () => {
         formData,
         {
           headers: {
-            authorization: access_token,
+            Authorization: access_token,
             'Content-Type': 'multipart/form-data',
           },
         }
@@ -49,6 +49,7 @@ const Signature = () => {
       console.log(response.status);
       if (response.status === 200) {
         console.log('상태값 200');
+        console.log(response.headers['authorization'])
         appStore.setValue(1);
       }
     } catch (error) {
@@ -70,51 +71,63 @@ const Signature = () => {
   return (
     <div>
         <Container>
+          <Container_frame>
             <Container_1>
-              ▼ SIGN HERE ▼
+              전자서명(필수)
             </Container_1>
             <Container_2>
-              <SignatureCanvas ref={signatureRef} penColor="#8BF5FD" canvasProps={{ width: 589, height: 230, className: 'signatureCanvas'}}/>
+              <SignatureCanvas ref={signatureRef} penColor="#ffffff" canvasProps={{ width: 589, height: 230, className: 'signatureCanvas'}}/>
             </Container_2>
             <Container_3>
               <Container_3_btn_1 onClick={handleClearSignature}>다시쓰기</Container_3_btn_1>
               <Container_3_btn_2 onClick={handleSaveAndSend}>저장</Container_3_btn_2>
             </Container_3>
+          </Container_frame>
         </Container>
     </div>
   );
 };
 const Container = styled.div`
-  position : absolute;
-  // background : red;
-  height: 330px;
-  width: 600px;
-  
+  position : fixed;
+  background : red;
+  height: 100%;
+  width: 100%;
   top : 50%;
   left : 50%;
   transform: translate(-50%, -50%);
-  
-  justify-content : space-between;
+  z-index : 1;
+  background-color: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(2.5px); 
+`;
+const Container_frame = styled.div`
+  position : absolute;
 
+  width
+
+  background : blue;
+  top : 50%;
+  left : 50%;
+  transform: translate(-50%, -50%);
 `;
 const Container_1 = styled.div`
-  // background : blue;
-  height: 30px;
-  width: 100%;
+  // background : red;
+  height : 50px;
+  border-radius : 10px;
 
   display : flex;
   justify-content : center;
+  align-items : center;
 
-  font-size: 20px;
+  color : white;
+  font-size : 20px;
   font-weight : bold;
-  color : #8BF5FD;
 `;
 const Container_2 = styled.div`
   // background : blue;
   height: 230px;
   width: 589px;
-  border : 6px solid #8BF5FD;
-  border-radius : 10px;
+  border : 5px solid #ffffff;
+  border-radius : 5px;
 `;
 const Container_3 = styled.div`
   // background : blue;
@@ -125,7 +138,7 @@ const Container_3 = styled.div`
   justify-content : space-between;
 `;
 const Container_3_btn_1 = styled.div`
-  background : #8BF5FD;
+  background : #ffffff;
   height: 50px;
   width : 295px;
   border-radius : 5px;
@@ -134,14 +147,14 @@ const Container_3_btn_1 = styled.div`
   justify-content : center;
   align-items: center;
 
-  color : #ffffff;
+  color : #000000;
   font-weight : bold;
   font-size : 15px;
 
   cursor : pointer;
 `;
 const Container_3_btn_2 = styled.button`
-  background : #8BF5FD;
+  background : #ffffff;
   height: 50px;
   width : 295px;
 
@@ -152,7 +165,7 @@ const Container_3_btn_2 = styled.button`
   justify-content : center;
   align-items: center;
 
-  color : #ffffff;
+  color : #000000;
   font-weight : bold;
   font-size : 15px;
 

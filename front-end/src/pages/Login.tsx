@@ -1,7 +1,6 @@
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import styled, { keyframes } from 'styled-components';
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate} from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import appStore from '../store/appStore';
@@ -10,8 +9,6 @@ import Cookies from 'js-cookie';
 
 
 const Login = () => {
-
-  const navigate = useNavigate();
 
   //api 요청
   const handleMypage_user_info = async (credentialResponse: any) => {
@@ -41,7 +38,6 @@ const Login = () => {
 
         console.log(refresh_token, access_token)
         appStore.setValue(1) // 나중에 1로 바꿔야함
-        navigate('/');
       }
       if (response.status === 201) {
         console.log("상태값 201", response.data)
@@ -50,8 +46,7 @@ const Login = () => {
 
         Cookies.set('X-REFRESH-TOKEN', refresh_token);
         localStorage.setItem('access-token', access_token)
-        navigate('/');
-        appStore.setValue(2)
+        appStore.setValue(3)
       }
 
       // if (appStore.value === 1){
@@ -69,236 +64,94 @@ const Login = () => {
     console.log('Login Failed');
   };
 
-  //텍스트변환
-  const texts: string[] = ['CONVENIENCE', 'PROVEN', 'INNOVATION', " IT'S ALL IN BLOCKER"];
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-
-  useEffect(() => {
-    const intervalId: NodeJS.Timeout = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length);
-    }, 1180);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [texts]);
-
   const clientId: string | undefined = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
+  const handleLogInCancel = () => {
+    appStore.setValue(1)
+  };
 
   return (
     <div>
-
       <Container>
-        <Contianer_block>
-          <Container_block_1></Container_block_1>
-          <Container_block_2></Container_block_2>
-          <Container_block_3></Container_block_3>
-          <Container_block_4></Container_block_4>
-        </Contianer_block>
-
-        <Container_text>
-          {texts[currentIndex]}
-        </Container_text>
-
-      </Container>
-
-      <Container_finish>
-        <Container_finish_img>
-
-        </Container_finish_img>
         <Container_finish_login_button>
-          {clientId && (
-            <GoogleOAuthProvider clientId={clientId}>
-              <GoogleLogin
-                onSuccess={handleMypage_user_info}
-                onError={handleLoginError}
-                shape = "circle"
-                type = "icon"
-              />
-            </GoogleOAuthProvider>
-          )}
+          <Container_login_cancel onClick={handleLogInCancel}>
+            <img src="./image/close.png" style={{ width: "25px", height: "25px", marginTop:"10px", marginLeft:"15px"}}></img>
+          </Container_login_cancel>
+            <img src="./image/login_logo.png" style={{ width: "100px", height: "100px", marginLeft:"100px"}}></img>
+          <Cotainer_login_title>LOGIN</Cotainer_login_title>
+          <Container_login_btn>
+            {clientId && (
+              <GoogleOAuthProvider clientId={clientId}>
+                <GoogleLogin
+                  onSuccess={handleMypage_user_info}
+                  onError={handleLoginError}
+                  logo_alignment = "center"
+                  shape = "square"
+                  type = "standard"
+                  text='signin_with'
+                />
+              </GoogleOAuthProvider>
+            )}
+          </Container_login_btn>
         </Container_finish_login_button>
-      </Container_finish>
-
+      </Container>
     </div>
   );
 };
-
-const fadeInAnimation_1 = keyframes`
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-`;
-
 const Container = styled.div`
-  position : absolute;
-  // background : red;
-  height: 400px;
-  width: 400px;
-  
-  top : 50%;
-  left : 50%;
-  transform: translate(-50%, -50%);
-  
-  display : flex;
-  justify-content : space-between;
-
-  animation: ${fadeInAnimation_1} 0.5s forwards; /* 애니메이션을 1초 동안 실행, ease-out으로 느린 빠르기로 시작 */
-  animation-delay: 4.2s; /* 애니메이션 시작을 3초로 지연 */
-`;
-
-
-const bounceAnimation = keyframes`
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(70px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-`;
-
-const Contianer_block = styled.div`
-    position : absolute;
-    // background : red;
-    height: 60px;
-    width: 60px;
-    margin-left : 10px;
-    display : flex;
-    justify-content : space-between;
-    animation: ${bounceAnimation} 1.13s infinite;
-
-    top : 15%;
-    left : 50%;
-    margin-left : -35px;
-`;
-const Container_block_1 = styled.div`
-  position : absolute;
-  background: linear-gradient(to right, #8BF5FD, #B0F4F7);
-  height: 28px;
-  width: 28px;
-
-  display : flex;
-  justify-content : space-between;
-
-  border-radius : 4px;
-
-  box-shadow: 0px 0px 15px 0px #8BF5FD;
-`;
-const Container_block_2 = styled.div`
-  position : absolute;
-  background: linear-gradient(to right, #8BF5FD, #B0F4F7);
-  height: 28px;
-  width: 28px;
-  margin-left : 32px;
-
-  display : flex;
-  justify-content : space-between;
-
-  border-radius : 4px;
-
-  box-shadow: 0px 0px 15px 0px #8BF5FD;
-`;
-const Container_block_3 = styled.div`
-  position : absolute;
-  background: linear-gradient(to right, #8BF5FD, #B0F4F7);
-  height: 28px;
-  width: 28px;
-  margin-top : 32px;
-
-  display : flex;
-  justify-content : space-between;
-
-  border-radius : 4px;
-
-  box-shadow: 0px 0px 15px 0px #8BF5FD;
-`;
-const Container_block_4 = styled.div`
-  position : absolute;
-  background: linear-gradient(to right, #8BF5FD, #B0F4F7);
-  height: 28px;
-  width: 28px;
-  margin-left : 32px;
-  margin-top : 32px;
-
-  display : flex;
-  justify-content : space-between;
-
-  border-radius : 4px;
-
-  box-shadow: 0px 0px 15px 0px #8BF5FD;
-`;
-const Container_text = styled.div`
-    position : absolute;
-    // background : aqua;
-    height: 60px;
+    position : fixed;
+    background : red;
+    height: 100%;
     width: 100%;
-    
-    top : 55%;
-    left : 50%;
-    transform: translate(-50%, -50%);
-    
-    display : flex;
-    justify-content : center;
-    align-items : center;
-
-    font-size: 40px;
-    font-weight: bold;
-    color: #fff;
-`;
-const fadeInAnimation_2 = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
-
-const Container_finish = styled.div`
-    position : absolute;
-    // background : aqua;
-    height: 350px;
-    width: 350px;
-    
     top : 50%;
     left : 50%;
     transform: translate(-50%, -50%);
-  
-    font-size: 40px;
-    font-weight: bold;
-    color: #fff;
-    opacity : 0;
-
-    animation: ${fadeInAnimation_2} 1s forwards; /* 애니메이션을 1초 동안 실행, ease-out으로 느린 빠르기로 시작 */
-    animation-delay: 4.5s; /* 애니메이션 시작을 3초로 지연 */
+    z-index : 1;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(2.5px); 
 `;
-const Container_finish_img = styled.div`
-    position : relative;
+const Container_login_cancel = styled.div`
     // background : red;
-    height: 40px;
-    width: 240px;
+    width : 50px;
+    height : 50px;
+    display : flex;
+    margin-left :250px;
 
-    top : 40%;
-    left : 50%;
-    transform: translate(-50%, -50%);
-
+    cursor : pointer;
+`;
+const Cotainer_login_title = styled.div`
+    // background : red;
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    font-family: 'Rubik Mono One', sans-serif;
+    font-size : 23px;
+    margin-top : 5px;
 `;
 const Container_finish_login_button = styled.div`
     position : relative;
-    // background : red;
-    height: 50px;
-    width: 40px;
+    background : #ffffff;
+    height: 300px;
+    width: 300px;
+    border-radius : 5px;
 
-    top : 45%;
+    top : 50%;
     left : 50%;
     transform: translate(-50%, -50%);
 `;
+const Container_login_btn = styled.div`
+    position : relative;
+    // background : red;
+    height: fit-content;
+    width: 100%;
+
+    display : flex;
+    align-items : center;
+    justify-content : center;
+
+    margin-top : 25px;
+`;
+
 
 
 export default Login;
