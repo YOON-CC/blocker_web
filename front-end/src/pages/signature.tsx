@@ -36,7 +36,7 @@ const Signature = () => {
       const formData = new FormData();
       formData.append('signature', signatureImage, 'signature.png');
       console.log(typeof formData)
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/signature`,
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/signatures`,
         formData,
         {
           headers: {
@@ -49,7 +49,7 @@ const Signature = () => {
       console.log(response.status);
       if (response.status === 200) {
         console.log('상태값 200');
-        console.log(response.headers['authorization'])
+        localStorage.setItem('access-token', response.headers['authorization'])
         appStore.setValue(1);
       }
     } catch (error) {

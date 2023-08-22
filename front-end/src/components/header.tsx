@@ -44,9 +44,9 @@ const Header = () => {
                         게시글
                     </Container_menu_item>
                 </StyledLink>
-                {/* <Container_menu_item onClick={handleGotoLogin}> 
+                <Container_menu_item onClick={handleGotoLogin}> 
                     게시글
-                </Container_menu_item> */}
+                </Container_menu_item>
 
 
                 <StyledLink to="/postwrite" style={{ textDecoration: 'none' }}>
