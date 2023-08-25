@@ -4,9 +4,21 @@ import styled from 'styled-components';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import axios from 'axios';
-
+interface BoardItem {
+    boardId: number;
+    bookmarkCount : number;
+    content : string;
+    createdAt : string;
+    modifiedAt : string;
+    name : string;
+    representImage : string;
+    title : string;
+    view : number;
+}
 
 const Board = () => {
+    const [boardData, setBoardData] = useState<BoardItem[]>([]); 
+
 
     const access_token = localStorage.getItem('access-token');
     console.log(access_token)
@@ -16,16 +28,18 @@ const Board = () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/boards`, {
                 params: {
-                    size: 4,
+                    size: 8,
                     page: 0,
                 },
                 headers: {
                     'Authorization': access_token,
                 }
             });
+
             console.log(response.data)
             if (response.status === 200) {
                 console.log("옴")
+                setBoardData(response.data);
             }
 
         } catch (error) {
@@ -63,52 +77,42 @@ const Board = () => {
                     </Container_main_text_container>
                 </Container_main>
                 <Container_board_frame>
-                    <Container_board_item>
-                        <Container_board_item_info>
-                            <Container_board_item_info_item>
-                                <img src="../image/see.png" style={{ width: "18px", height: "18px", marginTop:"4px"}}></img>
-                                +99
-                            </Container_board_item_info_item>
-                            <Container_board_item_info_item>
-                                <img src="../image/bookmark.png" style={{ width: "15px", height: "15px", marginTop:"2px"}}></img>
-                                +99
-                            </Container_board_item_info_item>
-                        </Container_board_item_info>
-                        <Container_board_title_frame>
-                            카페창업 24시간 공동 계약자 구합니다.
-                        </Container_board_title_frame>
-                        <Container_board_content_frame>
-                            안녕하세요 지금 카페 창업을 했습니다. 시간은 몇시로 대략 잡고있으며 새벽에 마감을 하고 나가시면 됩니다. 전자서명까지 완료한 상태입...                        
-                        </Container_board_content_frame>
-                        <Container_board_line>
+                    {boardData.map((item, index) => (
+                        <Container_board_item key={index}>
+                            <Container_board_item_info>
+                                <img src="../image/see.png" style={{ width: "18px", height: "18px", marginTop:"1px", marginRight:"4px"}}></img>
+                                {item.view}
+                                <img src="../image/bookmark.png" style={{ width: "15px", height: "15px",marginTop:"2px", marginRight:"2px", marginLeft : "7px"}}></img>
+                                {item.bookmarkCount}
+                            </Container_board_item_info>
+                            <Container_board_title_frame>
+                                {item.title}
+                            </Container_board_title_frame>
+                            <Container_board_content_frame>
+                                {item.content}
+                            </Container_board_content_frame>
+                            <Container_board_line>
 
-                        </Container_board_line>
-                        <Container_board_profile>
-                            <Container_board_profile_img>
-                                <img src="../image/profile.jpg" style={{ width: "100%", height: "100%"}}></img>
-                            </Container_board_profile_img>
-                            <Container_board_profile_frame>
-                                <Container_board_profile_user_info1>
-                                    happycyc
-                                </Container_board_profile_user_info1>
-                                <Container_board_profile_user_info2>
-                                    게시일 : 2023.01.17
-                                </Container_board_profile_user_info2>
-                                <Container_board_profile_user_info3>
-                                    수정일 : 2023.08.22
-                                </Container_board_profile_user_info3>
-                            </Container_board_profile_frame>
-
-                        </Container_board_profile>
-                    </Container_board_item>
-                    <Container_board_item></Container_board_item>
-                    <Container_board_item></Container_board_item>
-                    <Container_board_item></Container_board_item>
-                    <Container_board_item></Container_board_item>
-                    <Container_board_item></Container_board_item>
-                    <Container_board_item></Container_board_item>
-                    <Container_board_item></Container_board_item>
-                    <Container_board_item></Container_board_item>
+                            </Container_board_line>
+                            <Container_board_profile>
+                                <Container_board_profile_img>
+                                    {/* 이미지가 들어가야 하는 부분 */}
+                                    <img src="../image/profile.jpg" style={{ width: "100%", height: "100%"}}></img>
+                                </Container_board_profile_img>
+                                <Container_board_profile_frame>
+                                    <Container_board_profile_user_info1>
+                                        {item.name}
+                                    </Container_board_profile_user_info1>
+                                    <Container_board_profile_user_info2>
+                                        게시일 : {item.createdAt.split("T")[0]}
+                                    </Container_board_profile_user_info2>
+                                    <Container_board_profile_user_info3>
+                                        수정일 : {item.modifiedAt.split("T")[0]}
+                                    </Container_board_profile_user_info3>
+                                </Container_board_profile_frame>
+                            </Container_board_profile>
+                        </Container_board_item>
+                    ))}
                 </Container_board_frame>
             </Container>
         </div>
@@ -233,14 +237,21 @@ const Container_board_item = styled.div`
     margin-left : 20px;
     border-radius : 3px;
     box-shadow: 2px 2px 10px 1px rgb(196, 196, 196);
+    &:hover {
+        filter: brightness(95%); 
+        cursor : pointer;
+    }
 `;
 const Container_board_item_info = styled.div`
     position : relative;
     height : 35px;
-    width : 100%;
+    width : 290px;
     // background : red;
     display: flex;
     justify-content: flex-end; /* 자식 요소들을 오른쪽 끝으로 정렬 */
+    font-size : 14px;
+    padding-right : 10px;
+    margin-top : 10px;
     
 `;
 const Container_board_item_info_item = styled.div`
@@ -270,7 +281,7 @@ const Container_board_title_frame = styled.div`
     padding-left : 10px;
     padding-right : 10px;
 
-    margin-top:20px;
+    margin-top:10px;
 `;
 const Container_board_content_frame = styled.div`
     // background : red;
