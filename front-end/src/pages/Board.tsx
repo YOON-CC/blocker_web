@@ -133,7 +133,7 @@ const Container = styled.div`
 `;
 const Container_main = styled.div`
     // position : relative;
-    background : #ebeaea;
+    background : #e8edf1;
     position : relative;
     height: 400px;
     width: 100%;

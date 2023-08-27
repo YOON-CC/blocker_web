@@ -11,142 +11,187 @@ const Postwrite = () => {
         <div>
             <Header />
             <Container>
-                <Title_container>
-                    <Title_container_title>Title</Title_container_title>
-                    <Title_container_input></Title_container_input>
-                </Title_container>
-                <Upload>계약서 불러오기</Upload>
-                <Content_container>
-                    <Content_container_title>Content</Content_container_title>
-                    <Content_container_input></Content_container_input>
-                </Content_container>
-                <Post_btn>POST</Post_btn>
+                <Container_tip>🙌게시글을 작성하고, 동업자를 구해보세요!</Container_tip>
+                <Container_title placeholder='제목을 작성해주세요.'></Container_title>
+                <Container_img_select></Container_img_select>
+                <Container_info_container>
+                    <Container_info_container_select_location></Container_info_container_select_location>
+                    <Container_info_container_select_contract></Container_info_container_select_contract>
+                </Container_info_container>
+                <Container_content placeholder='내용을 작성해주세요.'></Container_content>
+                <Container_btn_container>
+                    <Container_btn_container_b1>취소</Container_btn_container_b1>
+                    <Container_btn_container_b2>작성</Container_btn_container_b2>
+                </Container_btn_container>
             </Container>
-            <Footer/>
         </div>
     );
 };
 const Container = styled.div`
+    // background : #e8edf1;
     position : absolute;
-    box-shadow: 0px 0px 25px 0px #8BF5FD;
-    height: 550px;
+    height: 500px;
     width: 600px;
-    margin-top : 100px;
 
+    top : 50%;
     left : 50%;
-    transform: translate(-50%); 
-
-    border-radius : 15px;
-    border : 5px solid #8BF5FD;
-    
+    transform : translate(-50%, -50%);
 `;
-const Title_container = styled.div`
-    position : absolute;
-    // background : red;
-    height: 60px;
-    width: 550px;
-    margin-left : 25px;
-    margin-top : 20px;
-`;
-const Title_container_title = styled.div`
-    position : absolute;
-    // background : red;
-    height: 60px;
-    width: 600px;
-
-    font-size : 15px;
-    font-weight : bold;
-    color : #8BF5FD;
-`;
-const Title_container_input = styled.input`
-    position : absolute;
-    background : none;
-    height: 30px;
-    width: 545px;
-    outline : none;
-
-    font-size : 15px;
-    font-weight : bold;
-    color : #8BF5FD;
-
-    margin-top:20px;
-    border: none;
-    border-bottom: 3px solid #8BF5FD;
-`;
-const Upload = styled.div`
-    position : absolute;
-    background: linear-gradient(to right, #8BF5FD, #B0F4F7);
-    height: 35px;
-    width: 550px;
-    border-radius : 5px;
-
-    margin-left : 25px;
-    margin-top : 90px;
+const Container_tip = styled.div`
+    background : black;
+    height: 40px;
+    width: 100%;
 
     display : flex;
     justify-content : center;
     align-items : center;
 
-    font-size : 15px;
+    font-size : 12px;
     font-weight : bold;
-    
-    cursor : pointer;
+    color : white;
 `;
-const Content_container = styled.div`
-    position : absolute;
-    // background : red;
-    height: 340px;
-    width: 550px;
-    margin-left : 25px;
-    margin-top : 145px;
-`;
-const Content_container_title = styled.div`
-    position : absolute;
-    // background : red;
-    height: 60px;
-    width: 600px;
+const Container_title = styled.input`
+    height: 40px;
+    width: 585px;
 
-    font-size : 15px;
+    display : flex;
+    justify-content : center;
+    align-items : center;
+
+    font-size : 12px;
     font-weight : bold;
-    color : #8BF5FD;
-`;
-const Content_container_input = styled.textarea`
-    position : absolute;
-    background : none;
-    height: 290px;
-    width: 525px;
+    color : black;
+
+    border : 2px solid #e3e3e3;
     outline : none;
-    resize: none;
 
-    font-size : 15px;
+    padding-left : 10px;
+    margin-top : 10px;
+
+    border-radius : 4px;
+
+`;
+const Container_img_select = styled.div`
+    background : #e3e3e3;
+    height:100px;
+    width: 100%;
+
+    display : flex;
+    justify-content : center;
+    align-items : center;
+
+    font-size : 12px;
     font-weight : bold;
-    color : #8BF5FD;
+    color : white;
 
-    margin-top:25px;
+    margin-top : 10px;
+
+    border-radius : 4px;
+
+`;
+const Container_info_container = styled.div`
+    background : aqua;
+    height:40px;
+    width: 100%;
+
+    display : flex;
+    justify-content : center;
+    align-items : center;
+
+    font-size : 12px;
+    font-weight : bold;
+    color : white;
+
+    margin-top : 10px;
+
+    display : flex;
+    justify-content : space-between;
+`;
+const Container_info_container_select_location = styled.div`
+    background : red;
+    height:100%;
+    width: 295px;
+`;
+const Container_info_container_select_contract = styled.div`
+    background : red;
+    height:100%;
+    width: 295px;
+`;
+const Container_content = styled.textarea`
+    height: 150px;
+    width: 577px;
+
+    display : flex;
+    justify-content : center;
+    align-items : center;
+
+    font-size : 12px;
+    font-weight : bold;
+    color : black;
+
+    border : 2px solid #e3e3e3;
+    outline : none;
+
     padding : 10px;
-    border: 3px solid #8BF5FD;
-    border-radius : 5px;
+    margin-top : 10px;
+
+    font-family: 'Varela Round', sans-serif;
+
+    resize : none;
+
+    border-radius : 4px;
 `;
-const Post_btn = styled.button`
-    position : absolute;
-    background: #8BF5FD;
-    height: 35px;
-    width: 605px;
+const Container_btn_container = styled.div`
+    // background : red;
+    height:40px;
+    width: 160px;
 
-    outline : none;
-    border : none;
-    border-radius : 0px 0px 10px 10px;
+    display : flex;
+    justify-content : space-between;
 
-    margin-top : 515px;
-    margin-left : -2.5px;
-    line-height: 2.4;
-
-    font-size : 15px;
+    font-size : 12px;
     font-weight : bold;
+    color : white;
 
-    cursor: pointer;
+    margin-top : 10px;
+    margin-left : 440px;
+
 `;
+const Container_btn_container_b1 = styled.div`
+    background : #CFCFCF;
+    height:100%;
+    width: 75px;
 
+    display : flex;
+    justify-content : center;
+    align-items: center;
+
+    font-size : 12px;
+    font-weight : bold;
+    color : white;
+
+    border-radius : 4px;
+    
+    cursor:pointer;
+`;
+const Container_btn_container_b2 = styled.button`
+    background : black;
+    height:100%;
+    width: 75px;
+
+    display : flex;
+    justify-content : center;
+    align-items: center;
+
+    font-size : 12px;
+    font-weight : bold;
+    color : white;
+
+    border-radius : 4px;
+    border : none;
+
+    cursor:pointer;
+`;
 
 
 export default Postwrite;
