@@ -71,8 +71,6 @@ const Postwrite = () => {
         }
     };
 
-
-
     return (
         <div>
             <Header />
@@ -85,7 +83,9 @@ const Postwrite = () => {
                             <img src={URL.createObjectURL(image)} alt={`Selected ${index}`} style={{ width: '70px', height: '70px'}} />
                         </div>
                     ))}
-                    <input type="file" accept="image/png" multiple onChange={handleImageChange} />
+                    <StyledLabel htmlFor="upload">업로드</StyledLabel>
+                    <Container_img_select_btn type="file" accept="image/png" multiple onChange={handleImageChange} id="upload"></Container_img_select_btn>
+                    
                     {selectedImages.length > 0 && (
                         <button onClick={handleImageSave}>이미지 저장</button>
                     )}
@@ -165,7 +165,29 @@ const Container_img_select = styled.div`
 
     border-radius : 4px;
     border : 1px solid #e3e3e3
-
+`;
+const StyledLabel = styled.label`
+    display: inline-block;
+    padding: .5em .75em;
+    color: #999;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #fdfdfd;
+    cursor: pointer;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: .25em;
+`;
+const Container_img_select_btn = styled.input`
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip:rect(0,0,0,0);
+    border: 0;
 `;
 const Container_info_container = styled.div`
     background : aqua;
