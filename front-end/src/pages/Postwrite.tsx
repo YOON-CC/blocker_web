@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import Header from '../components/header';
@@ -8,9 +8,9 @@ import axios from 'axios';
 const Postwrite = () => {
     const access_token = localStorage.getItem('access-token');
     console.log(access_token)
+    
 
-
-    //png 이미지를 주소로 변환하는 코드
+    //로컬에서 이미지 가져오는 코드
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,19 +20,43 @@ const Postwrite = () => {
             setSelectedImages(prevImages => [...prevImages, ...newSelectedImages]);
         }
     };
-  
-    const handleImageSave = () => {
-        selectedImages.forEach((image) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                if (e.target && e.target.result) {
-                    const base64Data = e.target.result.toString();
-                    console.log('이미지 데이터:', base64Data);
+
+    //png 파일을 서버에 보내고 주소를 받는 코드
+    const [images, setImages] = useState<string[]>([]);
+    const handlePngToUrl = async () => {
+        if (selectedImages.length === 0) {
+            return;
+        }
+        
+        try {
+            const formData = new FormData();
+            const lastIndex = selectedImages.length - 1; 
+            formData.append('image', selectedImages[lastIndex], 'image.png'); // 마지막 이미지만 추가
+            console.log(formData)
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/images`,
+                formData,
+                {
+                    headers: {
+                        'Authorization': access_token,
+                        'Content-Type': 'multipart/form-data'
+                    }
                 }
-            };
-            reader.readAsDataURL(image);
-        });
+            );
+            // 서버 응답 처리 코드
+            if (response.status == 201){
+                setImages(prevImages => [...prevImages, response.data.address]);
+            }
+
+        } catch (error) {
+            // 에러 처리 코드
+            console.error('Error uploading images:', error);
+        }
     };
+
+    useEffect(() => {
+        // 페이지가 로드될 때 한 번만 호출되는 로직
+        handlePngToUrl();
+    }, [selectedImages]);
 
     // 전체 데이터 전송 코드
     const [title, setTitle] = useState('');
@@ -48,14 +72,15 @@ const Postwrite = () => {
 
     const handleBoardPost = async (event : any) => {
         event.preventDefault();
+        console.log(images)
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/boards`, {
                 title: title,
                 content : content,
                 info : "부산 남구 대연동 부경대학교",
-                representImage : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/255px-Flag_of_South_Korea.svg.png",
+                representImage : images[0],
                 contractId : 1,
-                images : ['https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/255px-Flag_of_South_Korea.svg.png'],
+                images : images,
             }, {
                 headers: {
                     'Authorization': access_token,
@@ -80,15 +105,11 @@ const Postwrite = () => {
                 <Container_img_select>
                     {selectedImages.map((image, index) => (
                         <div key={index}>
-                            <img src={URL.createObjectURL(image)} alt={`Selected ${index}`} style={{ width: '70px', height: '70px'}} />
+                            <Container_img src={URL.createObjectURL(image)} alt={`Selected ${index}`} style={{ width: 'fit-content', height: '50px', marginRight : '30px'}}></Container_img>
                         </div>
                     ))}
-                    <StyledLabel htmlFor="upload">업로드</StyledLabel>
+                    <StyledLabel htmlFor="upload">+</StyledLabel>
                     <Container_img_select_btn type="file" accept="image/png" multiple onChange={handleImageChange} id="upload"></Container_img_select_btn>
-                    
-                    {selectedImages.length > 0 && (
-                        <button onClick={handleImageSave}>이미지 저장</button>
-                    )}
                 </Container_img_select>
                 <Container_info_container>
                     <Container_info_container_select_location></Container_info_container_select_location>
@@ -97,7 +118,9 @@ const Postwrite = () => {
                 <Container_content placeholder='내용을 작성해주세요.' onChange={handlecontentChange}></Container_content>
                 <form onSubmit={handleBoardPost}>
                     <Container_btn_container>
-                        <Container_btn_container_b1>취소</Container_btn_container_b1>
+                        <StyledLink to="/board" style={{ textDecoration: 'none' }}>
+                            <Container_btn_container_b1>취소</Container_btn_container_b1>
+                        </StyledLink>
                         <Container_btn_container_b2>작성</Container_btn_container_b2>
                     </Container_btn_container>
                 </form>
@@ -105,6 +128,14 @@ const Postwrite = () => {
         </div>
     );
 };
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: black; /* 원하는 색상으로 변경 */
+    
+    &:visited {
+        color: black; /* 방문한 링크의 색상도 동일하게 유지 */
+    }
+`;
 const Container = styled.div`
     // background : #e8edf1;
     position : absolute;
@@ -147,37 +178,48 @@ const Container_title = styled.input`
     margin-top : 10px;
 
     border-radius : 4px;
-
 `;
 const Container_img_select = styled.div`
-    height:100px;
-    width: 598px;
+    height: 100px;
+    width: 596px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+    border-radius: 4px;
+    border: 2px dotted #e3e3e3;
+    overflow-y: hidden; 
+    overflow-x: auto; 
 
-    display : flex;
-    justify-content : center;
-    align-items : center;
+    // background : #f0f0f0;
+`;
+const Container_img = styled.img`
+    position: relative;
+    width: fit-content;
+    height: 50px;
+    margin-right: 30px;
+    cursor: pointer;
+    transition: filter 0.3s; /* 효과 전환 시간 설정 */
 
-    font-size : 12px;
-    font-weight : bold;
-    color : white;
-
-    margin-top : 10px;
-
-    border-radius : 4px;
-    border : 1px solid #e3e3e3
+    &:hover {
+        filter: brightness(0.3); /* 호버 시 필터 적용 */
+    }
 `;
 const StyledLabel = styled.label`
-    display: inline-block;
-    padding: .5em .75em;
-    color: #999;
-    font-size: inherit;
-    line-height: normal;
-    vertical-align: middle;
-    background-color: #fdfdfd;
+    padding-left: 9px;
+    padding-right: 9px;
+    padding-bottom: 5px;
+    background-color: #e3e3e3;
+    color: #fff;
+    border-radius: 4px;
     cursor: pointer;
-    border: 1px solid #ebebeb;
-    border-bottom-color: #e2e2e2;
-    border-radius: .25em;
+
+    font-size : 20px;
+    
+
 `;
 const Container_img_select_btn = styled.input`
     position: absolute;
