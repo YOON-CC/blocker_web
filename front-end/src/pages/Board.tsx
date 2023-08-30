@@ -78,40 +78,42 @@ const Board = () => {
                 </Container_main>
                 <Container_board_frame>
                     {boardData.map((item, index) => (
-                        <Container_board_item key={index}>
-                            <Container_board_item_info>
-                                <img src="../image/see.png" style={{ width: "18px", height: "18px", marginTop:"1px", marginRight:"4px"}}></img>
-                                {item.view}
-                                <img src="../image/bookmark.png" style={{ width: "15px", height: "15px",marginTop:"2px", marginRight:"2px", marginLeft : "7px"}}></img>
-                                {item.bookmarkCount}
-                            </Container_board_item_info>
-                            <Container_board_title_frame>
-                                {item.title}
-                            </Container_board_title_frame>
-                            <Container_board_content_frame>
-                                {item.content}
-                            </Container_board_content_frame>
-                            <Container_board_line>
+                        <StyledLink to={`/board/${item.boardId}`} style={{ textDecoration: 'none' }} onClick={() => localStorage.setItem("boardId", item.boardId.toString())}>
+                            <Container_board_item key={index}>
+                                <Container_board_item_info>
+                                    <img src="../image/see.png" style={{ width: "18px", height: "18px", marginTop:"1px", marginRight:"4px"}}></img>
+                                    {item.view}
+                                    <img src="../image/bookmark.png" style={{ width: "15px", height: "15px",marginTop:"2px", marginRight:"2px", marginLeft : "7px"}}></img>
+                                    {item.bookmarkCount}
+                                </Container_board_item_info>
+                                <Container_board_title_frame>
+                                    {item.title}
+                                </Container_board_title_frame>
+                                <Container_board_content_frame>
+                                    {item.content}
+                                </Container_board_content_frame>
+                                <Container_board_line>
 
-                            </Container_board_line>
-                            <Container_board_profile>
-                                <Container_board_profile_img>
-                                    {/* 이미지가 들어가야 하는 부분 */}
-                                    <img src="../image/profile.jpg" style={{ width: "100%", height: "100%"}}></img>
-                                </Container_board_profile_img>
-                                <Container_board_profile_frame>
-                                    <Container_board_profile_user_info1>
-                                        {item.name}
-                                    </Container_board_profile_user_info1>
-                                    <Container_board_profile_user_info2>
-                                        게시일 : {item.createdAt.split("T")[0]}
-                                    </Container_board_profile_user_info2>
-                                    <Container_board_profile_user_info3>
-                                        수정일 : {item.modifiedAt.split("T")[0]}
-                                    </Container_board_profile_user_info3>
-                                </Container_board_profile_frame>
-                            </Container_board_profile>
-                        </Container_board_item>
+                                </Container_board_line>
+                                <Container_board_profile>
+                                    <Container_board_profile_img>
+                                        {/* 이미지가 들어가야 하는 부분 */}
+                                        <img src="../image/profile.jpg" style={{ width: "100%", height: "100%"}}></img>
+                                    </Container_board_profile_img>
+                                    <Container_board_profile_frame>
+                                        <Container_board_profile_user_info1>
+                                            {item.name}
+                                        </Container_board_profile_user_info1>
+                                        <Container_board_profile_user_info2>
+                                            게시일 : {item.createdAt.split("T")[0]}
+                                        </Container_board_profile_user_info2>
+                                        <Container_board_profile_user_info3>
+                                            수정일 : {item.modifiedAt.split("T")[0]}
+                                        </Container_board_profile_user_info3>
+                                    </Container_board_profile_frame>
+                                </Container_board_profile>
+                            </Container_board_item>
+                        </StyledLink>
                     ))}
                 </Container_board_frame>
             </Container>
