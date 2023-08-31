@@ -22,7 +22,9 @@ const Post = () => {
     const [postObject_bookmarkCount, setPostObject_bookmarkCount] = useState(0); 
     const [postObject_createdAt, setPostObject_createdAt] = useState(''); 
     const [postObject_modifiedAt, setPostObject_modifiedAt] = useState(''); 
-    const [postObject_images, setPostObject_images] = useState([]); 
+    const [postObject_images_idx, setPostObject_images_idx] = useState([]); 
+    const [postObject_images_addr, setPostObject_images_addr] = useState([]); 
+
     const [postObject_info, setPostObject_info] = useState(''); 
     const [postObject_contractId, setPostObject_contractId] = useState(0); 
     const [postObject_isWriter, setPostObject_isWriter] = useState(false); 
@@ -52,7 +54,8 @@ const Post = () => {
                 setPostObject_bookmarkCount(response.data.bookmarkCount);
                 setPostObject_createdAt(response.data.createdAt);
                 setPostObject_modifiedAt(response.data.modifiedAt);
-                setPostObject_images(response.data.images);
+                setPostObject_images_idx(response.data.images.map((image: { imageId: number; }) => image.imageId));
+                setPostObject_images_addr(response.data.images.map((image: { imageAddress: string; }) => image.imageAddress));
                 setPostObject_info(response.data.info);
                 setPostObject_contractId(response.data.contractId);
                 setPostObject_isWriter(response.data.isWriter);
@@ -122,11 +125,31 @@ const Post = () => {
         }
     };
 
+    //이미지 클릭 확대
+    const [modalImage, setModalImage] = useState(null);
+
+    const handleImageClick = (index : any) => {
+        const imageUrl = postObject_images_addr[index];
+        setModalImage(imageUrl);
+    };
+
+    const handleCloseModal = () => {
+        setModalImage(null);
+    };
+
     return (
         <div>
             <Header/>
             <Container_1>
-                <Container_1_c1></Container_1_c1>
+                {modalImage && (
+                    <ModalContainer onClick={handleCloseModal}>
+                        <ModalImage src={modalImage} alt="확대 이미지" />
+                    </ModalContainer>
+                )}
+                <Container_1_c1>
+                {postObject_representImage ? (<img src={postObject_representImage} alt="이미지" style={{ maxWidth: '400px', height: 'auto'}}/>
+                ) : (<img src="../image/no_img.png" alt="대체 이미지" style={{ maxWidth: '400px', height: '400px' }}/>)}
+                </Container_1_c1>
                 <Container_1_c2>
                     <Container_1_c2_title>{postObject_title}</Container_1_c2_title>
                     <Container_1_c2_info>
@@ -173,6 +196,25 @@ const Post = () => {
                     </Container_1_c2_btn>
                 </Container_1_c2>
             </Container_1>
+            <Container_2>
+                <Container_2_img_container>
+                    {postObject_images_idx.length === 0 ? (
+                        <No_Img>No images</No_Img>
+                    ) : (
+                        postObject_images_idx.map((id, index) => (
+                            <div key={id} onClick={() => handleImageClick(index)}>
+                                <img src={postObject_images_addr[index]} alt="이미지" style={{ width: 'fit-content', height: '100px', marginLeft: '15px' }}/>
+                            </div>
+                        ))
+                    )}
+                </Container_2_img_container>
+            </Container_2>
+            <Container_3>
+                <Container_3_content_container>
+                    <Container_3_content_container_title>작성 내용</Container_3_content_container_title>
+                    <Container_3_content_container_content>{postObject_content}</Container_3_content_container_content>
+                </Container_3_content_container>
+            </Container_3>
         </div>
     );
 };
@@ -189,7 +231,7 @@ const Container_1 = styled.div`
     // background : red;
     height : 400px;
     width: 1000px;
-    margin-top : 100px;
+    margin-top : 120px;
     left : 50%;
     transform : translate(-50%);
 
@@ -199,9 +241,14 @@ const Container_1 = styled.div`
     // border : 1px solid #000000;
 `;
 const Container_1_c1 = styled.div`
-    background : red;
+    // background : red;
     height : 100%;
     width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border : 1px solid #e8edf1;
+
 `;
 const Container_1_c2 = styled.div`
     // background : blue;
@@ -303,7 +350,6 @@ const Container_1_c2_detail_1 = styled.div`
 
     font-size : 15px;
     font-weight : bold;
-    margin-left : 10px;
 `;
 const Container_1_c2_detail_1_text1 = styled.div`
     // background : blue;
@@ -326,7 +372,6 @@ const Container_1_c2_detail_2 = styled.div`
 
     font-size : 15px;
     font-weight : bold;
-    margin-left : 10px;
     margin-top : 5px;
 `;
 const Container_1_c2_detail_2_text2 = styled.div`
@@ -350,7 +395,6 @@ const Container_1_c2_detail_3 = styled.div`
 
     font-size : 15px;
     font-weight : bold;
-    margin-left : 10px;
     margin-top : 5px;
 `;
 const Container_1_c2_detail_3_text3 = styled.div`
@@ -454,6 +498,114 @@ const Container_1_c2_btn_3 = styled.button`
 
     cursor : pointer;
 `;
+const Container_2 = styled.div`
+    position : absolute;
+    // background : blue;
+    height : 150px;
+    width : 100%;
+    margin-top : 530px;
 
 
+    display : flex;
+    justify-content : space-between;
+
+    // border : 1px solid #000000;
+`;
+const Container_2_img_container = styled.div`
+    position : absolute;
+    background : #F1F1F1;
+    height : 150px;
+    width : 1000px;
+
+    display : flex;
+    align-items: center;
+
+    left : 50%;
+    transform : translate(-50%);
+
+    overflow-x: auto; /* 가로 스크롤 표시 */
+    overflow-y: hidden; /* 세로 스크롤 숨김 */
+
+    /* 가로 스크롤바 스타일 변경 */
+    ::-webkit-scrollbar {
+        width: 10px; /* 스크롤바 너비 */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: red; /* 스크롤바 색상 */
+    }
+`;
+const No_Img = styled.div`
+    position : absolute;
+    height : 150px;
+    width : 1000px;
+
+    display : flex;
+    justify-content : center;
+    align-items: center;
+
+    color : grey;
+    font-size : 17px;
+
+`;
+const Container_3 = styled.div`
+    position : absolute;
+    // background : red;
+    height : 200px;
+    width : 100%;
+    margin-top : 690px;
+
+
+    display : flex;
+    justify-content : space-between;
+
+    // border : 1px solid #000000;
+`;
+const Container_3_content_container = styled.div`
+    position : relative;
+    // background : aqua;
+    height : 100%;
+    width : 1000px;
+
+    left : 50%;
+    transform : translate(-50%);
+`;
+const Container_3_content_container_title = styled.div`
+    // background : green;
+    height : 45px;
+    width : 100%;
+
+    font-size : 25px;
+    font-weight : bold;
+    color : #b6b6b6;
+
+    border-bottom : 1px solid #b6b6b6;
+`;
+const Container_3_content_container_content = styled.div`
+    // background : red;
+    height : fit-content;
+    width : 100%;
+
+    font-size : 15px;
+    font-weight : bold;
+    margin-top : 10px;
+`;
+
+const ModalContainer = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(2.5px); 
+`;
+
+const ModalImage = styled.img`
+    max-width: fit-content;
+    max-height: 350px;
+`;
 export default Post;

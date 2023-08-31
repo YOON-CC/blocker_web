@@ -87,10 +87,10 @@ const Board = () => {
                                     {item.bookmarkCount}
                                 </Container_board_item_info>
                                 <Container_board_title_frame>
-                                    {item.title}
+                                    {item.title.length > 8 ? `${item.title.substring(0, 8)}...` : item.title}
                                 </Container_board_title_frame>
                                 <Container_board_content_frame>
-                                    {item.content}
+                                    {item.content.length > 50 ? `${item.content.substring(0, 50)}...` : item.content}
                                 </Container_board_content_frame>
                                 <Container_board_line>
 
@@ -253,22 +253,9 @@ const Container_board_item_info = styled.div`
     justify-content: flex-end; /* 자식 요소들을 오른쪽 끝으로 정렬 */
     font-size : 14px;
     padding-right : 10px;
-    padding-top : 13px;
+    padding-top : 11px;
 
     
-`;
-const Container_board_item_info_item = styled.div`
-    // background : blue;
-    height : 100%;
-    width : fit-content;
-    display : flex;
-    align-items:center;
-    justify-content : center;
-
-    font-size : 13px;
-    font-weight:bold;
-    
-    margin-right : 7px;
 `;
 const Container_board_title_frame = styled.div`
     // background : aqua;
