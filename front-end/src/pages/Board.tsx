@@ -253,7 +253,8 @@ const Container_board_item_info = styled.div`
     justify-content: flex-end; /* 자식 요소들을 오른쪽 끝으로 정렬 */
     font-size : 14px;
     padding-right : 10px;
-    margin-top : 10px;
+    padding-top : 13px;
+
     
 `;
 const Container_board_item_info_item = styled.div`

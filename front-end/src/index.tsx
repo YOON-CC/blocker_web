@@ -4,10 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBookmark, faEye} from '@fortawesome/free-solid-svg-icons';
+import { faBookmark, faEye, faCheck, faComment, faBullhorn } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faBookmark);
 library.add(faEye);
+library.add(faCheck);
+library.add(faComment);
+library.add(faBullhorn);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
