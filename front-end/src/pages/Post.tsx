@@ -137,9 +137,39 @@ const Post = () => {
         setModalImage(null);
     };
 
+    //게시글 삭제
+    const handleBoardDelete = async (event: any) => {
+        event.preventDefault();
+    
+        try {
+            const response = await axios.delete(`${process.env.REACT_APP_API_URL}/boards/${boardId}`, // 경로 변수 사용
+                {
+                    headers: {
+                        Authorization: access_token,
+                    },
+                }
+            );
+            console.log(response.status)
+
+        } catch (error) {
+            // 에러 처리 코드 추가
+        }
+    };
     return (
         <div>
             <Header/>
+            {postObject_isWriter === true && 
+                <Edit_container>
+                    <Edit_container_btn_container>
+                        <StyledLink to={`/postedit/${boardId}`} style={{ textDecoration: 'none' }}>
+                            <Edit_container_b1>편집</Edit_container_b1>
+                        </StyledLink>
+                        <form onSubmit={handleBoardDelete}>
+                            <Edit_container_b2>삭제</Edit_container_b2>
+                        </form>
+                    </Edit_container_btn_container>
+                </Edit_container>
+            }
             <Container_1>
                 {modalImage && (
                     <ModalContainer onClick={handleCloseModal}>
@@ -147,8 +177,8 @@ const Post = () => {
                     </ModalContainer>
                 )}
                 <Container_1_c1>
-                {postObject_representImage ? (<img src={postObject_representImage} alt="이미지" style={{ maxWidth: '400px', height: 'auto'}}/>
-                ) : (<img src="../image/no_img.png" alt="대체 이미지" style={{ maxWidth: '400px', height: '400px' }}/>)}
+                {postObject_representImage ? (<img src={postObject_representImage} alt="이미지" style={{ width: '400px', height: '400px'}}/>
+                ) : (<img src="../image/no_img.png" alt="대체 이미지" style={{ width: '400px', height: '400px' }}/>)}
                 </Container_1_c1>
                 <Container_1_c2>
                     <Container_1_c2_title>{postObject_title}</Container_1_c2_title>
@@ -198,15 +228,11 @@ const Post = () => {
             </Container_1>
             <Container_2>
                 <Container_2_img_container>
-                    {postObject_images_idx.length === 0 ? (
-                        <No_Img>No images</No_Img>
-                    ) : (
-                        postObject_images_idx.map((id, index) => (
-                            <div key={id} onClick={() => handleImageClick(index)}>
-                                <img src={postObject_images_addr[index]} alt="이미지" style={{ width: 'fit-content', height: '100px', marginLeft: '15px' }}/>
-                            </div>
-                        ))
-                    )}
+                    {postObject_images_idx.map((id, index) => (
+                        <div key={id} onClick={() => handleImageClick(index)}>
+                            <img src={postObject_images_addr[index]} alt="이미지" style={{ width: '50px', height: '50px', marginLeft: '15px', cursor : 'pointer'}}/>
+                        </div>
+                    ))}
                 </Container_2_img_container>
             </Container_2>
             <Container_3>
@@ -225,6 +251,63 @@ const StyledLink = styled(Link)`
     &:visited {
         color: black; /* 방문한 링크의 색상도 동일하게 유지 */
     }
+`;
+const Edit_container = styled.div`
+    position : absolute;
+    // background : red;
+    height : 20px;
+    width: 1000px;
+
+    left : 50%;
+    transform : translate(-50%);
+    margin-top: 90px;
+    display : flex;
+    justify-content : end;
+
+    // border : 1px solid #000000;
+`;
+const Edit_container_btn_container = styled.div`
+    // position : absolute;
+    // background : aqua;
+    height : 20px;
+    width: 95px;
+
+    display : flex;
+    justify-content : space-between;
+
+    // border : 1px solid #000000;
+`;
+const Edit_container_b1 = styled.button`
+    background : #e8edf1;
+    height : 100%;
+    width: 45px;
+
+    font-size : 10px;
+    font-weight : bold;
+    color : grey;
+    display : flex;
+    justify-content : center;
+    align-items : center;
+
+    border-radius : 2px;
+    cursor : pointer;
+    border : none;
+`;
+const Edit_container_b2 = styled.button`
+    background : #e8edf1;
+    height : 100%;
+    width: 45px;
+
+    font-size : 10px;
+    font-weight : bold;
+    color : grey;
+    display : flex;
+    justify-content : center;
+    align-items : center;
+
+    border-radius : 2px;
+    cursor : pointer;
+    border : none;
 `;
 const Container_1 = styled.div`
     position : absolute;
@@ -501,7 +584,7 @@ const Container_1_c2_btn_3 = styled.button`
 const Container_2 = styled.div`
     position : absolute;
     // background : blue;
-    height : 150px;
+    height : 50px;
     width : 100%;
     margin-top : 530px;
 
@@ -513,39 +596,13 @@ const Container_2 = styled.div`
 `;
 const Container_2_img_container = styled.div`
     position : absolute;
-    background : #F1F1F1;
-    height : 150px;
-    width : 1000px;
-
+    // background : #e8edf1;
+    height : 100%;
+    width : 1028px;
     display : flex;
-    align-items: center;
 
     left : 50%;
     transform : translate(-50%);
-
-    overflow-x: auto; /* 가로 스크롤 표시 */
-    overflow-y: hidden; /* 세로 스크롤 숨김 */
-
-    /* 가로 스크롤바 스타일 변경 */
-    ::-webkit-scrollbar {
-        width: 10px; /* 스크롤바 너비 */
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background-color: red; /* 스크롤바 색상 */
-    }
-`;
-const No_Img = styled.div`
-    position : absolute;
-    height : 150px;
-    width : 1000px;
-
-    display : flex;
-    justify-content : center;
-    align-items: center;
-
-    color : grey;
-    font-size : 17px;
 
 `;
 const Container_3 = styled.div`
@@ -553,7 +610,7 @@ const Container_3 = styled.div`
     // background : red;
     height : 200px;
     width : 100%;
-    margin-top : 690px;
+    margin-top : 600px;
 
 
     display : flex;

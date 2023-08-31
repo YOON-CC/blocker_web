@@ -3,6 +3,7 @@ import Signature from './pages/signature';
 import Main from './pages/Main';
 import Board from './pages/Board';
 import Post from './pages/Post';
+import Postedit from './pages/Postedit';
 import Postwrite from './pages/Postwrite';
 import Contracts from './pages/Contracts';
 import Vertification from './pages/Verification';
@@ -26,6 +27,7 @@ function App() {
             {/* <Route path="/signature" element={<Signature></Signature>}></Route> */}
             <Route path="/board" element={<Board></Board>}></Route>
             <Route path="/board/*" element={<Post></Post>}></Route>
+            <Route path="/postedit/*" element={<Postedit></Postedit>}></Route>
             <Route path="/postwrite" element={<Postwrite></Postwrite>}></Route>
             <Route path="/contracts" element={<Contracts></Contracts>}></Route>
             <Route path="/vertification" element={<Vertification></Vertification>}></Route>

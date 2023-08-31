@@ -98,7 +98,8 @@ const Board = () => {
                                 <Container_board_profile>
                                     <Container_board_profile_img>
                                         {/* 이미지가 들어가야 하는 부분 */}
-                                        <img src="../image/profile.jpg" style={{ width: "100%", height: "100%"}}></img>
+                                        {item.representImage ? (<img src={item.representImage} alt="이미지" style={{ width: '140px', height: '135px'}}/>
+                                        ) : (<img src="../image/no_img.png" alt="대체 이미지" style={{ width: '140px', height: '135px' }}/>)}
                                     </Container_board_profile_img>
                                     <Container_board_profile_frame>
                                         <Container_board_profile_user_info1>
