@@ -184,7 +184,7 @@ const Postedit = () => {
                 <Container_default_img>
                     {postObject_images_idx.map((id, index) => (
                         <div key={id} onClick={() => handleImageClick(index)}>
-                            <img src={postObject_images_addr[index]} alt="이미지" style={{ width: '50px', height: '50px', marginLeft: '15px', cursor : 'pointer'}}/>
+                            <img src={postObject_images_addr[index]} alt="이미지" style={{ width: '50px', height: '50px', marginLeft: '15px', cursor : 'pointer', filter: removeImg.includes(index) ? 'brightness(0.3)' : 'none'}}/>
                         </div>
                     ))}
                 </Container_default_img>
