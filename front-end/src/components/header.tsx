@@ -56,7 +56,7 @@ const Header = () => {
                 </StyledLink>
                 <StyledLink to="/contracts" style={{ textDecoration: 'none' }}>
                     <Container_menu_item>
-                        진행상황
+                        계약서/작성
                     </Container_menu_item>
                 </StyledLink>
                 <StyledLink to="/vertification" style={{ textDecoration: 'none' }}>

@@ -6,6 +6,7 @@ import Post from './pages/Post';
 import Postedit from './pages/Postedit';
 import Postwrite from './pages/Postwrite';
 import Contracts from './pages/Contracts';
+import Contractwrite from './pages/Contractwrite';
 import Vertification from './pages/Verification';
 import Chat from './pages/Chat';
 import Mypage from './pages/Mypage';
@@ -30,6 +31,7 @@ function App() {
             <Route path="/postedit/*" element={<Postedit></Postedit>}></Route>
             <Route path="/postwrite" element={<Postwrite></Postwrite>}></Route>
             <Route path="/contracts" element={<Contracts></Contracts>}></Route>
+            <Route path="/contractwrite" element={<Contractwrite></Contractwrite>}></Route>
             <Route path="/vertification" element={<Vertification></Vertification>}></Route>
             <Route path="/chat" element={<Chat></Chat>}></Route>
             <Route path="/mypage" element={<Mypage></Mypage>}></Route>
