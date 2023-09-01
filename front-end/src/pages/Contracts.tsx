@@ -58,11 +58,10 @@ const Contracts = () => {
                                     <Container_2_contarcts_1_info_content>수정일</Container_2_contarcts_1_info_content>
                                 </Container_2_contarcts_1_info>
                             </Container_2_contarcts_1>
-                            
                         </Container_2_contarcts_container>
 
                     </Container_2_contract_1>
-                    <Container_2_contract_2>
+                    <Container_2_contract_2> 
                         <Container_2_contract_title_Container>
                             <img src="./image/login_logo.png" style={{ width: "60px", height: "60px", marginLeft:"10px", marginTop:"10px"}}></img>
                             <Container_2_contract_title_Container_content>
