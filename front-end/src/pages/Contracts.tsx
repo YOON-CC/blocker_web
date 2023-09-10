@@ -23,44 +23,47 @@ const Contracts = () => {
             </Container_1>
             <Container_2>
                 <Container_2_contract>
-                    <Container_2_contract_1>
-                        <Container_2_contract_title_Container>
-                            <img src="./image/login_logo.png" style={{ width: "60px", height: "60px", marginLeft:"10px", marginTop:"10px"}}></img>
-                            <Container_2_contract_title_Container_content>
-                                <Container_2_contract_title_Container_content_1>미체결 계약서</Container_2_contract_title_Container_content_1>
-                                <Container_2_contract_title_Container_content_2>작성만 되어져있는 계약서</Container_2_contract_title_Container_content_2>
-                            </Container_2_contract_title_Container_content>
-                        </Container_2_contract_title_Container>
-                        <Container_2_contract_line></Container_2_contract_line>
+                    {/* <StyledLink to={`/contracts/${boardId}`} style={{ textDecoration: 'none' }}> */}
+                    <StyledLink to={`/contracts/${1}`} style={{ textDecoration: 'none' }}>
+                        <Container_2_contract_1>
+                            <Container_2_contract_title_Container>
+                                <img src="./image/login_logo.png" style={{ width: "60px", height: "60px", marginLeft:"10px", marginTop:"10px"}}></img>
+                                <Container_2_contract_title_Container_content>
+                                    <Container_2_contract_title_Container_content_1>미체결 계약서</Container_2_contract_title_Container_content_1>
+                                    <Container_2_contract_title_Container_content_2>작성만 되어져있는 계약서</Container_2_contract_title_Container_content_2>
+                                </Container_2_contract_title_Container_content>
+                            </Container_2_contract_title_Container>
+                            <Container_2_contract_line></Container_2_contract_line>
 
-                        <Container_2_contarcts_container>
-                            <Container_2_contarcts_1>
-                                <Container_2_contarcts_1_title>롤뺑드파리 저녁타입 펍운영</Container_2_contarcts_1_title>
-                                <Container_2_contarcts_1_content>제목이 곧 내용입니다. 내용이 곧 제목입니다.</Container_2_contarcts_1_content>
-                                <Container_2_contarcts_1_info>
-                                    <Container_2_contarcts_1_info_content>작성일</Container_2_contarcts_1_info_content>
-                                    <Container_2_contarcts_1_info_content>수정일</Container_2_contarcts_1_info_content>
-                                </Container_2_contarcts_1_info>
-                            </Container_2_contarcts_1>
-                            <Container_2_contarcts_1>
-                                <Container_2_contarcts_1_title>롤뺑드파리 저녁타입 펍운영</Container_2_contarcts_1_title>
-                                <Container_2_contarcts_1_content>제목이 곧 내용입니다. 내용이 곧 제목입니다.</Container_2_contarcts_1_content>
-                                <Container_2_contarcts_1_info>
-                                    <Container_2_contarcts_1_info_content>작성일</Container_2_contarcts_1_info_content>
-                                    <Container_2_contarcts_1_info_content>수정일</Container_2_contarcts_1_info_content>
-                                </Container_2_contarcts_1_info>
-                            </Container_2_contarcts_1>
-                            <Container_2_contarcts_1>
-                                <Container_2_contarcts_1_title>롤뺑드파리 저녁타입 펍운영</Container_2_contarcts_1_title>
-                                <Container_2_contarcts_1_content>제목이 곧 내용입니다. 내용이 곧 제목입니다.</Container_2_contarcts_1_content>
-                                <Container_2_contarcts_1_info>
-                                    <Container_2_contarcts_1_info_content>작성일</Container_2_contarcts_1_info_content>
-                                    <Container_2_contarcts_1_info_content>수정일</Container_2_contarcts_1_info_content>
-                                </Container_2_contarcts_1_info>
-                            </Container_2_contarcts_1>
-                        </Container_2_contarcts_container>
+                            <Container_2_contarcts_container>
+                                <Container_2_contarcts_1>
+                                    <Container_2_contarcts_1_title>롤뺑드파리 저녁타입 펍운영</Container_2_contarcts_1_title>
+                                    <Container_2_contarcts_1_content>제목이 곧 내용입니다. 내용이 곧 제목입니다.</Container_2_contarcts_1_content>
+                                    <Container_2_contarcts_1_info>
+                                        <Container_2_contarcts_1_info_content>작성일</Container_2_contarcts_1_info_content>
+                                        <Container_2_contarcts_1_info_content>수정일</Container_2_contarcts_1_info_content>
+                                    </Container_2_contarcts_1_info>
+                                </Container_2_contarcts_1>
+                                <Container_2_contarcts_1>
+                                    <Container_2_contarcts_1_title>롤뺑드파리 저녁타입 펍운영</Container_2_contarcts_1_title>
+                                    <Container_2_contarcts_1_content>제목이 곧 내용입니다. 내용이 곧 제목입니다.</Container_2_contarcts_1_content>
+                                    <Container_2_contarcts_1_info>
+                                        <Container_2_contarcts_1_info_content>작성일</Container_2_contarcts_1_info_content>
+                                        <Container_2_contarcts_1_info_content>수정일</Container_2_contarcts_1_info_content>
+                                    </Container_2_contarcts_1_info>
+                                </Container_2_contarcts_1>
+                                <Container_2_contarcts_1>
+                                    <Container_2_contarcts_1_title>롤뺑드파리 저녁타입 펍운영</Container_2_contarcts_1_title>
+                                    <Container_2_contarcts_1_content>제목이 곧 내용입니다. 내용이 곧 제목입니다.</Container_2_contarcts_1_content>
+                                    <Container_2_contarcts_1_info>
+                                        <Container_2_contarcts_1_info_content>작성일</Container_2_contarcts_1_info_content>
+                                        <Container_2_contarcts_1_info_content>수정일</Container_2_contarcts_1_info_content>
+                                    </Container_2_contarcts_1_info>
+                                </Container_2_contarcts_1>
+                            </Container_2_contarcts_container>
 
-                    </Container_2_contract_1>
+                        </Container_2_contract_1>
+                    </StyledLink>
                     <Container_2_contract_2> 
                         <Container_2_contract_title_Container>
                             <img src="./image/login_logo.png" style={{ width: "60px", height: "60px", marginLeft:"10px", marginTop:"10px"}}></img>
