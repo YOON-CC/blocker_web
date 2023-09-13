@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import axios from 'axios';
+
+
 interface BoardItem {
     boardId: number;
     bookmarkCount : number;

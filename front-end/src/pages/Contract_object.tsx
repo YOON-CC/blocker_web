@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import Header from '../components/header';
@@ -6,6 +6,47 @@ import axios from 'axios';
 
 const Contracts_object = () => {
 
+    const access_token = localStorage.getItem('access-token');
+    const contractId = localStorage.getItem('contractId_1');
+
+
+    const [contractObject_contractId, setContractObject_contractId] = useState(0); 
+    const [contractObject_title, setContractObject_title] = useState(''); 
+    const [contractObject_content, setContractObject_content] = useState(''); 
+    const [contractObject_createdAt, setContractObject_createdAt] = useState(''); 
+    const [contractObject_modifiedAt, setContractObject_modifiedAt] = useState(''); 
+
+    const handleContarctObject_1 = async () => {
+
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/contracts/${contractId}`, {
+                params: {
+                    state: "NOT_CONCLUDED",
+                },
+                headers: {
+                    'Authorization': access_token,
+                }
+            });
+
+            console.log(response.data)
+            if (response.status === 200) {
+                setContractObject_contractId(response.data.contractId);
+                setContractObject_title(response.data.title);
+                setContractObject_content(response.data.content);
+                setContractObject_createdAt(response.data.createdAt);
+                setContractObject_modifiedAt(response.data.modifiedAt);
+            }
+
+        } catch (error) {
+
+        }
+
+    };
+
+    useEffect(() => {
+        // 페이지가 로드될 때 한 번만 호출되는 로직
+        handleContarctObject_1();
+    }, []);
 
     return (
         <div>
@@ -14,17 +55,17 @@ const Contracts_object = () => {
                 <Container_1>계약서</Container_1>
                 <Container_2>
                     <Container_2_title>제목</Container_2_title>
-                    <Container_2_content></Container_2_content>
+                    <Container_2_content>{contractObject_title}</Container_2_content>
                 </Container_2>
                 <Container_3>
                     <Container_3_title>작성일자</Container_3_title>
-                    <Container_3_content></Container_3_content>
+                    <Container_3_content>{contractObject_createdAt.split("T")[0]}</Container_3_content>
                     <Container_3_title>수정일자</Container_3_title>
-                    <Container_3_content></Container_3_content>
+                    <Container_3_content>{contractObject_modifiedAt.split("T")[0]}</Container_3_content>
                 </Container_3>
                 <Container_4>
                     <Container_4_title>내용</Container_4_title>
-                    <Container_4_content></Container_4_content>
+                    <Container_4_content>{contractObject_content}</Container_4_content>
                 </Container_4>
             </Container>
             <Container_btn_container>
@@ -96,6 +137,10 @@ const Container_2_content = styled.div`
     // background : #ffffff;
     height: 100%;
     width: 500px;
+
+    display : flex;
+    justify-content : center;
+    align-items: center;
 `;
 const Container_3 = styled.div`
     position : relative;
@@ -125,6 +170,10 @@ const Container_3_content = styled.div`
     // background : blue;
     height: 100%;
     width: 200px;
+
+    display : flex;
+    justify-content : center;
+    align-items: center;
 `;
 const Container_4 = styled.div`
     position : relative;
@@ -154,6 +203,10 @@ const Container_4_content = styled.div`
     // background : blue;
     height: 100%;
     width: 500px;
+
+    display : flex;
+    justify-content : center;
+    align-items: center;
 `;
 
 const Container_btn_container = styled.div`

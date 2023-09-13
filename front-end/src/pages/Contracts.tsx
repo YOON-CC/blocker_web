@@ -3,8 +3,22 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import Header from '../components/header';
 import Footer from '../components/footer';
+import axios from 'axios';
+
+interface ContractItem {
+    contractId: number;
+    title : number;
+    content : string;
+    createdAt : string;
+    modifiedAt : string;
+}
+
 
 const Contracts = () => {
+
+    const access_token = localStorage.getItem('access-token');
+    const [contractData_1, setContractData_1] = useState<ContractItem[]>([]); 
+
     const [currentTime, setCurrentTime] = useState(new Date());
 
     useEffect(() => {
@@ -13,6 +27,36 @@ const Contracts = () => {
         }, 1000); // 1초마다 업데이트
 
         return () => clearInterval(interval); // 컴포넌트 언마운트 시 interval 해제
+    }, []);
+
+    //미체결 게약서 받아오기
+    const handleContarctList = async () => {
+
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/contracts`, {
+                params: {
+                    state: "NOT_CONCLUDED",
+                },
+                headers: {
+                    'Authorization': access_token,
+                }
+            });
+
+            console.log(response.data)
+            if (response.status === 200) {
+                console.log("옴")
+                setContractData_1(response.data);
+            }
+
+        } catch (error) {
+
+        }
+
+    };
+
+    useEffect(() => {
+        // 페이지가 로드될 때 한 번만 호출되는 로직
+        handleContarctList();
     }, []);
 
     return (
@@ -24,7 +68,6 @@ const Contracts = () => {
             <Container_2>
                 <Container_2_contract>
                     {/* <StyledLink to={`/contracts/${boardId}`} style={{ textDecoration: 'none' }}> */}
-                    <StyledLink to={`/contracts/${1}`} style={{ textDecoration: 'none' }}>
                         <Container_2_contract_1>
                             <Container_2_contract_title_Container>
                                 <img src="./image/login_logo.png" style={{ width: "60px", height: "60px", marginLeft:"10px", marginTop:"10px"}}></img>
@@ -36,34 +79,21 @@ const Contracts = () => {
                             <Container_2_contract_line></Container_2_contract_line>
 
                             <Container_2_contarcts_container>
-                                <Container_2_contarcts_1>
-                                    <Container_2_contarcts_1_title>롤뺑드파리 저녁타입 펍운영</Container_2_contarcts_1_title>
-                                    <Container_2_contarcts_1_content>제목이 곧 내용입니다. 내용이 곧 제목입니다.</Container_2_contarcts_1_content>
-                                    <Container_2_contarcts_1_info>
-                                        <Container_2_contarcts_1_info_content>작성일</Container_2_contarcts_1_info_content>
-                                        <Container_2_contarcts_1_info_content>수정일</Container_2_contarcts_1_info_content>
-                                    </Container_2_contarcts_1_info>
-                                </Container_2_contarcts_1>
-                                <Container_2_contarcts_1>
-                                    <Container_2_contarcts_1_title>롤뺑드파리 저녁타입 펍운영</Container_2_contarcts_1_title>
-                                    <Container_2_contarcts_1_content>제목이 곧 내용입니다. 내용이 곧 제목입니다.</Container_2_contarcts_1_content>
-                                    <Container_2_contarcts_1_info>
-                                        <Container_2_contarcts_1_info_content>작성일</Container_2_contarcts_1_info_content>
-                                        <Container_2_contarcts_1_info_content>수정일</Container_2_contarcts_1_info_content>
-                                    </Container_2_contarcts_1_info>
-                                </Container_2_contarcts_1>
-                                <Container_2_contarcts_1>
-                                    <Container_2_contarcts_1_title>롤뺑드파리 저녁타입 펍운영</Container_2_contarcts_1_title>
-                                    <Container_2_contarcts_1_content>제목이 곧 내용입니다. 내용이 곧 제목입니다.</Container_2_contarcts_1_content>
-                                    <Container_2_contarcts_1_info>
-                                        <Container_2_contarcts_1_info_content>작성일</Container_2_contarcts_1_info_content>
-                                        <Container_2_contarcts_1_info_content>수정일</Container_2_contarcts_1_info_content>
-                                    </Container_2_contarcts_1_info>
-                                </Container_2_contarcts_1>
+                                {contractData_1.map((item, index) => (
+                                    <StyledLink to={`/contracts/${item.contractId}`} style={{ textDecoration: 'none' }} onClick={() => localStorage.setItem("contractId_1", item.contractId.toString())}>
+                                        <Container_2_contarcts_1>
+                                            <Container_2_contarcts_1_title>{item.title}</Container_2_contarcts_1_title>
+                                            <Container_2_contarcts_1_content>{item.content}</Container_2_contarcts_1_content>
+                                            <Container_2_contarcts_1_info>
+                                                <Container_2_contarcts_1_info_content>작성일 : {item.createdAt.split("T")[0]}</Container_2_contarcts_1_info_content>
+                                                <Container_2_contarcts_1_info_content>수정일 : {item.modifiedAt.split("T")[0]}</Container_2_contarcts_1_info_content>
+                                            </Container_2_contarcts_1_info>
+                                        </Container_2_contarcts_1>
+                                    </StyledLink>
+                                ))}
                             </Container_2_contarcts_container>
 
                         </Container_2_contract_1>
-                    </StyledLink>
                     <Container_2_contract_2> 
                         <Container_2_contract_title_Container>
                             <img src="./image/login_logo.png" style={{ width: "60px", height: "60px", marginLeft:"10px", marginTop:"10px"}}></img>
