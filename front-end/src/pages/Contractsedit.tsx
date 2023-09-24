@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import Header from '../components/header';
@@ -7,7 +7,40 @@ import axios from 'axios';
 const Contract_edit= () => {
 
     const access_token = localStorage.getItem('access-token');
+    const contractId = localStorage.getItem('contractId_1');
+    const [contractObject_contractId, setContractObject_contractId] = useState(0); 
+    const [contractObject_title, setContractObject_title] = useState(''); 
+    const [contractObject_content, setContractObject_content] = useState(''); 
 
+    const handleContarctObject_1 = async () => {
+
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/contracts/${contractId}`, {
+                params: {
+                    state: "NOT_CONCLUDED",
+                },
+                headers: {
+                    'Authorization': access_token,
+                }
+            });
+
+            console.log(response.data)
+            if (response.status === 200) {
+                setContractObject_contractId(response.data.contractId);
+                setContractObject_title(response.data.title);
+                setContractObject_content(response.data.content);
+            }
+
+        } catch (error) {
+
+        }
+
+    };
+
+    useEffect(() => {
+        // 페이지가 로드될 때 한 번만 호출되는 로직
+        handleContarctObject_1();
+    }, []);
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -19,10 +52,11 @@ const Contract_edit= () => {
         setContent(event.target.value)
     };
 
-    const handleContractPost = async (event : any) => {
+    const handleContractEdit = async (event : any) => {
         event.preventDefault();
+
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/contracts`, {
+            const response = await axios.patch(`${process.env.REACT_APP_API_URL}/contracts/${contractId}`, {
                 title: title,
                 content : content,
             }, {
@@ -31,8 +65,8 @@ const Contract_edit= () => {
                 }
             });
 
-            if (response.status === 201) {
-                console.log("옴")
+            if (response.status === 200) {
+                console.log("수정완료")
             }
 
         } catch (error) {
@@ -44,14 +78,14 @@ const Contract_edit= () => {
         <div>
             <Header/>
             <Container>
-                <Container_title placeholder='제목을 작성해주세요.' onChange={handletitleChange}></Container_title>
-                <Container_content placeholder='내용을 작성해주세요.' onChange={handlecontentChange}></Container_content>
+                <Container_title placeholder={contractObject_title} onChange={handletitleChange}></Container_title>
+                <Container_content placeholder={contractObject_content} onChange={handlecontentChange}></Container_content>
                 <Container_btn_container>
                     <StyledLink to="/contracts" style={{ textDecoration: 'none' }}>
                         <Container_btn_container_b1>취소</Container_btn_container_b1>
                     </StyledLink>
-                    <form onSubmit={handleContractPost}>
-                        <Container_btn_container_b2>작성</Container_btn_container_b2>
+                    <form onSubmit={handleContractEdit}>
+                        <Container_btn_container_b2>수정</Container_btn_container_b2>
                     </form>
                 </Container_btn_container>
             </Container>
