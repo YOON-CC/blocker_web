@@ -18,6 +18,8 @@ const Contracts = () => {
 
     const access_token = localStorage.getItem('access-token');
     const [contractData_1, setContractData_1] = useState<ContractItem[]>([]); 
+    const [contractData_2, setContractData_2] = useState<ContractItem[]>([]); 
+
 
     const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -30,7 +32,7 @@ const Contracts = () => {
     }, []);
 
     //미체결 게약서 받아오기
-    const handleContarctList = async () => {
+    const handleContarctList_1 = async () => {
 
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/contracts`, {
@@ -51,12 +53,36 @@ const Contracts = () => {
         } catch (error) {
 
         }
-
     };
 
+    //진행중 게약서 받아오기
+    const handleContarctList_2 = async () => {
+
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/contracts`, {
+                params: {
+                    state: "SIGNING",
+                },
+                headers: {
+                    'Authorization': access_token,
+                }
+            });
+
+            console.log(response.data)
+            if (response.status === 200) {
+                console.log("옴")
+                setContractData_2(response.data);
+            }
+
+        } catch (error) {
+
+        }
+    };
+    
     useEffect(() => {
         // 페이지가 로드될 때 한 번만 호출되는 로직
-        handleContarctList();
+        handleContarctList_1();
+        handleContarctList_2();
     }, []);
 
     return (
@@ -80,7 +106,9 @@ const Contracts = () => {
 
                             <Container_2_contarcts_container>
                                 {contractData_1.map((item, index) => (
-                                    <StyledLink to={`/contracts/${item.contractId}`} style={{ textDecoration: 'none' }} onClick={() => localStorage.setItem("contractId_1", item.contractId.toString())}>
+                                    <StyledLink to={`/contracts/${item.contractId}`} style={{ textDecoration: 'none' }} onClick={() => 
+                                        {localStorage.setItem("contractId_1", item.contractId.toString());
+                                        localStorage.setItem("state", "NOT_CONCLUDED");}}>
                                         <Container_2_contarcts_1>
                                             <Container_2_contarcts_1_title>{item.title}</Container_2_contarcts_1_title>
                                             <Container_2_contarcts_1_content>{item.content}</Container_2_contarcts_1_content>
@@ -103,6 +131,24 @@ const Contracts = () => {
                             </Container_2_contract_title_Container_content>
                         </Container_2_contract_title_Container>
                         <Container_2_contract_line></Container_2_contract_line>
+
+                        <Container_2_contarcts_container>
+                            {contractData_1.map((item, index) => (
+                                <StyledLink to={`/contracts/${item.contractId}`} style={{ textDecoration: 'none' }} onClick={() => 
+                                    {localStorage.setItem("contractId_1", item.contractId.toString());
+                                    localStorage.setItem("state", "SIGNING");}}>
+                                    <Container_2_contarcts_1>
+                                        <Container_2_contarcts_1_title>{item.title}</Container_2_contarcts_1_title>
+                                        <Container_2_contarcts_1_content>{item.content}</Container_2_contarcts_1_content>
+                                        <Container_2_contarcts_1_info>
+                                            <Container_2_contarcts_1_info_content>작성일 : {item.createdAt.split("T")[0]}</Container_2_contarcts_1_info_content>
+                                            <Container_2_contarcts_1_info_content>수정일 : {item.modifiedAt.split("T")[0]}</Container_2_contarcts_1_info_content>
+                                        </Container_2_contarcts_1_info>
+                                    </Container_2_contarcts_1>
+                                </StyledLink>
+                            ))}
+                        </Container_2_contarcts_container>
+
                     </Container_2_contract_2>
                     <Container_2_contract_3>
                         <Container_2_contract_title_Container>

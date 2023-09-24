@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
+import SignatureCanvas from 'react-signature-canvas';
 import styled from 'styled-components';
 import Header from '../components/header';
 import axios from 'axios';
@@ -8,7 +9,7 @@ const Contracts_object = () => {
 
     const access_token = localStorage.getItem('access-token');
     const contractId = localStorage.getItem('contractId_1');
-
+    const contractType = localStorage.getItem('state');
 
     const [contractObject_contractId, setContractObject_contractId] = useState(0); 
     const [contractObject_title, setContractObject_title] = useState(''); 
@@ -18,6 +19,10 @@ const Contracts_object = () => {
 
     //계약참여자 찾기 모달 상태
     const [contractSearchModal, setContractSearchModal] = useState(false); 
+
+    //전자서명 하기
+    const [contractSignModal, setContractSignModal] = useState(false); 
+
 
     //계약참여자 검색 
     const [searchUserContent, setSearchUserContent] = useState('');
@@ -107,6 +112,26 @@ const Contracts_object = () => {
         }
     }
 
+    //전자서명 등록
+    const handleContractSign = async (event : any) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}//signature/sign`, {
+                contractId : contractId,
+            }, {
+                headers: {
+                    'Authorization': access_token,
+                }
+            });
+
+            if (response.status === 201) {
+                console.log("옴")
+            }
+
+        } catch (error) {
+
+        }
+    }
 
     return (
         <div>
@@ -128,16 +153,29 @@ const Contracts_object = () => {
                     <Container_4_content>{contractObject_content}</Container_4_content>
                 </Container_4>
             </Container>
-            <Container_btn_container>
-                <Container_btn_container_b1>취소</Container_btn_container_b1>
-                <StyledLink to="/contract_edit" style={{ textDecoration: 'none' }} onClick={() => localStorage.setItem("contractId_1", contractObject_contractId.toString())}>
-                    <Container_btn_container_b2>편집</Container_btn_container_b2>
-                </StyledLink>
-                <form onSubmit={handleContractDelete}>
-                    <Container_btn_container_b3>삭제</Container_btn_container_b3>
-                </form>
-                <Container_btn_container_b4 onClick={() => setContractSearchModal(!contractSearchModal)}>계약참여자 검색</Container_btn_container_b4>
-            </Container_btn_container>
+            {contractType === 'NOT_CONCLUDED' && (
+                <Container_btn_container>
+                    <Container_btn_container_b1>취소</Container_btn_container_b1>
+                    <StyledLink to="/contract_edit" style={{ textDecoration: 'none' }} onClick={() => localStorage.setItem("contractId_1", contractObject_contractId.toString())}>
+                        <Container_btn_container_b2>편집</Container_btn_container_b2>
+                    </StyledLink>
+                    <form onSubmit={handleContractDelete}>
+                        <Container_btn_container_b3>삭제</Container_btn_container_b3>
+                    </form>
+                    <Container_btn_container_b4 onClick={() => setContractSearchModal(!contractSearchModal)}>계약참여자 검색</Container_btn_container_b4>
+                </Container_btn_container>
+            )}
+            {contractType === 'SIGNING' && (
+                <Container_btn_container>
+                    <form onSubmit={handleContractDelete}>
+                        <Container_btn_container_b3>삭제</Container_btn_container_b3>
+                    </form>
+                    <form onSubmit={handleContractSign}>
+                        <Container_btn_container_b5>전자서명 등록</Container_btn_container_b5>
+                    </form>
+                </Container_btn_container>
+            )}
+
             {contractSearchModal && (
                 <Container_search_user>
                     <Container_search_user_frame>
@@ -387,6 +425,24 @@ const Container_btn_container_b4 = styled.button`
 
     cursor:pointer;
 `;
+const Container_btn_container_b5 = styled.button`
+    background : #d4c900;
+    height:100%;
+    width: 515px;
+
+    display : flex;
+    justify-content : center;
+    align-items: center;
+
+    font-size : 12px;
+    font-weight : bold;
+    color : white;
+
+    border-radius : 4px;
+    border : none;
+
+    cursor:pointer;
+`;
 const Container_search_user = styled.div`
     position : fixed;
     height: 100%;
@@ -512,4 +568,5 @@ const Container_search_user_frame_3_b2 = styled.button`
     cursor:pointer;
 
 `;
+
 export default Contracts_object;
