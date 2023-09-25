@@ -37,7 +37,7 @@ const Contracts = () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/contracts`, {
                 params: {
-                    state: "NOT_CONCLUDED",
+                    state: "NOT_PROCEED",
                 },
                 headers: {
                     'Authorization': access_token,
@@ -54,14 +54,15 @@ const Contracts = () => {
 
         }
     };
-
+  
+    //
     //진행중 게약서 받아오기
     const handleContarctList_2 = async () => {
 
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/contracts`, {
                 params: {
-                    state: "SIGNING",
+                    state: "PROCEED",
                 },
                 headers: {
                     'Authorization': access_token,
@@ -108,7 +109,7 @@ const Contracts = () => {
                                 {contractData_1.map((item, index) => (
                                     <StyledLink to={`/contracts/${item.contractId}`} style={{ textDecoration: 'none' }} onClick={() => 
                                         {localStorage.setItem("contractId_1", item.contractId.toString());
-                                        localStorage.setItem("state", "NOT_CONCLUDED");}}>
+                                        localStorage.setItem("state", "NOT_PROCEED");}}>
                                         <Container_2_contarcts_1>
                                             <Container_2_contarcts_1_title>{item.title}</Container_2_contarcts_1_title>
                                             <Container_2_contarcts_1_content>{item.content}</Container_2_contarcts_1_content>
@@ -133,10 +134,10 @@ const Contracts = () => {
                         <Container_2_contract_line></Container_2_contract_line>
 
                         <Container_2_contarcts_container>
-                            {contractData_1.map((item, index) => (
+                            {contractData_2.map((item, index) => (
                                 <StyledLink to={`/contracts/${item.contractId}`} style={{ textDecoration: 'none' }} onClick={() => 
-                                    {localStorage.setItem("contractId_1", item.contractId.toString());
-                                    localStorage.setItem("state", "SIGNING");}}>
+                                    {localStorage.setItem("contractId_2", item.contractId.toString());
+                                    localStorage.setItem("state", "PROCEED");}}>
                                     <Container_2_contarcts_1>
                                         <Container_2_contarcts_1_title>{item.title}</Container_2_contarcts_1_title>
                                         <Container_2_contarcts_1_content>{item.content}</Container_2_contarcts_1_content>

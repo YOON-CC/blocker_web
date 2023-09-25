@@ -79,7 +79,7 @@ const Postwrite = () => {
                 content : content,
                 info : "부산 남구 대연동 부경대학교",
                 representImage : images[0],
-                contractId : 2,
+                contractId : 16,
                 images : images,
             }, {
                 headers: {

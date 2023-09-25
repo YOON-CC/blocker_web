@@ -153,7 +153,7 @@ const Contracts_object = () => {
                     <Container_4_content>{contractObject_content}</Container_4_content>
                 </Container_4>
             </Container>
-            {contractType === 'NOT_CONCLUDED' && (
+            {contractType === 'NOT_PROCEED' && (
                 <Container_btn_container>
                     <Container_btn_container_b1>취소</Container_btn_container_b1>
                     <StyledLink to="/contract_edit" style={{ textDecoration: 'none' }} onClick={() => localStorage.setItem("contractId_1", contractObject_contractId.toString())}>
@@ -165,7 +165,7 @@ const Contracts_object = () => {
                     <Container_btn_container_b4 onClick={() => setContractSearchModal(!contractSearchModal)}>계약참여자 검색</Container_btn_container_b4>
                 </Container_btn_container>
             )}
-            {contractType === 'SIGNING' && (
+            {contractType === 'PROCEED' && (
                 <Container_btn_container>
                     <form onSubmit={handleContractDelete}>
                         <Container_btn_container_b3>삭제</Container_btn_container_b3>
