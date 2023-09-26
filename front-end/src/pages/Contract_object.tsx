@@ -28,7 +28,7 @@ const Contracts_object = () => {
     const [searchUserContent, setSearchUserContent] = useState('');
 
     //계약참여자 정보 받기
-    const [searchUserContentEmail, setSearchUserContentEmail] = useState(''); 
+    const [searchUserContentEmail, setSearchUserContentEmail] = useState<string[]>([]);
     const [searchUserContentName, setSearchUserContentName] = useState(''); 
 
 
@@ -105,8 +105,33 @@ const Contracts_object = () => {
 
             
             if (response.status === 200) {
-                console.log(response.data)
+                const updatedEmailList = [...searchUserContentEmail, response.data[0].email];
+                setSearchUserContentEmail(updatedEmailList);
+
+                console.log(updatedEmailList)
             }
+        } catch (error) {
+
+        }
+    }
+
+    //계약 진행하기 버튼
+    const handleContractToProceed = async (event : any) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/signs`, {
+                contractId: contractId,
+                contractors : searchUserContentEmail,
+            }, {
+                headers: {
+                    'Authorization': access_token,
+                }
+            });
+
+            if (response.status === 201) {
+                console.log("생성완료")
+            }
+
         } catch (error) {
 
         }
@@ -116,18 +141,19 @@ const Contracts_object = () => {
     const handleContractSign = async (event : any) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}//signature/sign`, {
-                contractId : contractId,
-            }, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/signs/contract`, {
+                params: {
+                    contractId: contractId,
+                },
                 headers: {
                     'Authorization': access_token,
                 }
             });
 
-            if (response.status === 201) {
-                console.log("옴")
+            
+            if (response.status === 200) {
+                console.log(response.data)
             }
-
         } catch (error) {
 
         }
@@ -188,14 +214,17 @@ const Contracts_object = () => {
 
 
                         <Container_search_user_frame_2>
-                            <Container_search_user_frame_2_container>preffeer</Container_search_user_frame_2_container>
-                            <Container_search_user_frame_2_container>Yehjoon</Container_search_user_frame_2_container>
+                            {searchUserContentEmail.map((item, index) => (
+                                <Container_search_user_frame_2_container key={index}>{item}</Container_search_user_frame_2_container>
+                            ))}
                         </Container_search_user_frame_2>
 
 
                         <Container_search_user_frame_3>
                             <Container_search_user_frame_3_b1 onClick={() => setContractSearchModal(!contractSearchModal)}>취소</Container_search_user_frame_3_b1>
-                            <Container_search_user_frame_3_b2>진행</Container_search_user_frame_3_b2>
+                            <form onSubmit={handleContractToProceed}>
+                                <Container_search_user_frame_3_b2>진행</Container_search_user_frame_3_b2>
+                            </form>
                         </Container_search_user_frame_3>
                     </Container_search_user_frame>
                 </Container_search_user>
