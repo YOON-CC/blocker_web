@@ -141,21 +141,37 @@ const Contracts_object = () => {
     const handleContractSign = async (event : any) => {
         event.preventDefault();
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/signs/contract`, {
-                params: {
-                    contractId: contractId,
-                },
-                headers: {
-                    'Authorization': access_token,
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/signs/contract/${contractId}`, // 경로 변수 사용
+                {
+                    headers: {
+                        Authorization: access_token,
+                    },
                 }
-            });
-
-            
+            );
             if (response.status === 200) {
-                console.log(response.data)
+                console.log("전자서명등록")
             }
         } catch (error) {
+            // 에러 처리 코드 추가
+        }
+    }
 
+    //진행중 계약서 삭제
+    const handleContractDestruction = async (event : any) => {
+        event.preventDefault();
+        try {
+            const response = await axios.delete(`${process.env.REACT_APP_API_URL}/signs/contract/${contractId}`, // 경로 변수 사용
+                {
+                    headers: {
+                        Authorization: access_token,
+                    },
+                }
+            );
+            if (response.status === 200) {
+                console.log("삭제됨")
+            }
+        } catch (error) {
+            // 에러 처리 코드 추가
         }
     }
 
@@ -193,7 +209,7 @@ const Contracts_object = () => {
             )}
             {contractType === 'PROCEED' && (
                 <Container_btn_container>
-                    <form onSubmit={handleContractDelete}>
+                    <form onSubmit={handleContractDestruction}>
                         <Container_btn_container_b3>삭제</Container_btn_container_b3>
                     </form>
                     <form onSubmit={handleContractSign}>
